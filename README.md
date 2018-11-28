@@ -1,5 +1,4 @@
 # cart4j
-Opensource Cart project
 Provides all the necessary functions for shopping carts
 
 ## Services
