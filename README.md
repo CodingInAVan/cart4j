@@ -9,6 +9,8 @@ Opensource Cart project
 
 ### Product Service
 
+### Price Service
+
 ### Payment Service
 
 ### Order Service
