@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PageDtoV1<T> {
     private List<T> list;
-    private Integer offset;
+    private Long offset;
     private Integer totalPage;
     private Integer limit;
 }

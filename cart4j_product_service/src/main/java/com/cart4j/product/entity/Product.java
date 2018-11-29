@@ -46,4 +46,6 @@ public class Product {
     @OneToOne
     @JoinColumn(name="weight_id")
     private ProductWeight productWeight;
+
+    private Boolean activated;
 }
