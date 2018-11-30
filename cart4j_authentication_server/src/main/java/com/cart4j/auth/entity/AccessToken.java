@@ -1,12 +1,46 @@
 package com.cart4j.auth.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name="c4_access_token")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Setter
+public class AccessToken implements Serializable {
+    private static final long serialVersionUID = 5196041473178432400L;
 
-public class AccessToken {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String tokenKey;
+
+    @Lob
+    private byte[] tokenValue;
+    private Timestamp expirationDate;
+    private String authenticationKey;
+    @Lob
+    private byte[] authentication;
+
+    private Date createdAt;
+
+    @ManyToOne
+    @JoinTable(name = "c4_user_access_token", joinColumns = @JoinColumn(name = "access_token_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private User user;
+
+    @ManyToOne
+    @JoinTable(name = "c4_client_access_token", joinColumns = @JoinColumn(name = "access_token_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "client_id", referencedColumnName = "id"))
+    private Client client;
+
+    @OneToOne
+    @JoinColumn(name="refresh_token_id")
+    private RefreshToken refreshToken;
+
 }
