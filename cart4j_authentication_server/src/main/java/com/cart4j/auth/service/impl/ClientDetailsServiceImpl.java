@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service
+@Service("clientDetailsService")
 @Transactional
 public class ClientDetailsServiceImpl implements ClientDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientDetailsServiceImpl.class);

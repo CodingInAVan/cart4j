@@ -18,6 +18,8 @@ import org.springframework.security.oauth2.common.util.SerializationUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
@@ -30,6 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
+@Component
 public class AuthTokenStore implements TokenStore {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenStore.class);
 
@@ -145,7 +148,8 @@ public class AuthTokenStore implements TokenStore {
 
     @Override
     public void removeAccessTokenUsingRefreshToken(OAuth2RefreshToken oAuth2RefreshToken) {
-        accessTokenRepository.deleteByRefreshTokenKey(extractTokenKey(oAuth2RefreshToken.getValue()));
+        AccessToken accessToken = accessTokenRepository.getOneByRefreshTokenKey(extractTokenKey(oAuth2RefreshToken.getValue()));
+        accessTokenRepository.delete(accessToken);
     }
 
     @Override

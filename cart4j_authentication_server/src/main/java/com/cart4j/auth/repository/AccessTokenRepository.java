@@ -20,6 +20,9 @@ public interface AccessTokenRepository extends JpaRepository<AccessToken, Long> 
     @Query("SELECT a FROM AccessToken a WHERE a.refreshToken.id = ?1")
     AccessToken getOneByRefreshTokenId(Long refreshTokenId);
 
+    @Query("SELECT a FROM AccessToken a INNER JOIN a.refreshToken r WHERE r.refreshTokenKey = ?1")
+    AccessToken getOneByRefreshTokenKey(String refreshTokenKey);
+
     @Query("SELECT a FROM AccessToken a INNER JOIN a.client c INNER JOIN a.user u WHERE u.username = ?2 and c.clientUniqueId = ?1")
     List<AccessToken> findByClientUniqueIdAndUsername(String clientUniqueId, String username);
 
@@ -27,7 +30,4 @@ public interface AccessTokenRepository extends JpaRepository<AccessToken, Long> 
     @Query("DELETE FROM AccessToken t WHERE t.tokenKey = ?1")
     void deleteByTokenKey(String tokenKey);
 
-    @Modifying
-    @Query("DELETE FROM AccessToken t WHERE t.refreshToken.tokenKey = ?1")
-    void deleteByRefreshTokenKey(String refreshTokenKey);
 }

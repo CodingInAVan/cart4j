@@ -29,31 +29,17 @@ public class AuthServiceOauth2Config extends AuthorizationServerConfigurerAdapte
     private ClientDetailsService clientDetailsService;
 
     @Autowired
-    private AuthenticationManager authAuthenticationManager;
+    private AuthenticationManager authenticationManagerBean;
 
+    @Autowired
+    private UserApprovalHandler userApprovalHandler;
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new AuthTokenStore();
-    }
-
-    @Bean
-    public UserApprovalHandler userApprovalHandler() {
-        TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
-        handler.setTokenStore(tokenStore());
-        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
-        handler.setClientDetailsService(clientDetailsService);
-        return handler;
-    }
-
-    @Bean
-    public AuthenticationKeyGenerator authenticationKeyGenerator() {
-        return new DefaultAuthenticationKeyGenerator();
-    }
+    @Autowired
+    private TokenStore tokenStore;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore()).userApprovalHandler(userApprovalHandler()).authenticationManager(authAuthenticationManager);
+        endpoints.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler).authenticationManager(authenticationManagerBean);
     }
 
     @Override
