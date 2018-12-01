@@ -3,40 +3,46 @@ package com.cart4j.auth.provider;
 import com.cart4j.auth.entity.Client;
 import com.cart4j.auth.entity.AccessToken;
 import lombok.Builder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Builder
 public class AuthClientDetails implements ClientDetails {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthClientDetails.class);
 
     private static final long serialVersionUID = -6055056191220737438L;
 
-    private Client client;
-    private Integer accessTokenValiditySeconds;
-    private Integer refreshTokenValiditySeconds;
+    private Set<String> resourceIds;
 
-    public AuthClientDetails(Client client, AccessToken accessToken) {
-        this.client = client;
+    private String clientSecret;
 
-        accessTokenValiditySeconds = Long.valueOf(accessToken.getExpirationDate().getTime() - (System.currentTimeMillis() / 1000)).intValue();
-    }
+    private Set<String> scope;
+
+    private Set<String> authorizedGrantTypes;
+
+    private Set<String> registeredRedirectUri;
+
+    private Collection<GrantedAuthority> authorities;
+
+    private String clientUniqueId;
 
     @Override
     public String getClientId() {
-        return client.getClientUniqueId();
+        return clientUniqueId;
     }
 
     @Override
     public Set<String> getResourceIds() {
-        if(CollectionUtils.isEmpty(client.getResources())) {
-            return new HashSet<>();
-        }
-        return client.getResources().stream().map(r -> r.getResourceUniqueId()).collect(Collectors.toSet());
+        return resourceIds;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class AuthClientDetails implements ClientDetails {
 
     @Override
     public String getClientSecret() {
-        return client.getClientSecret();
+        return clientSecret;
     }
 
     @Override
@@ -56,39 +62,27 @@ public class AuthClientDetails implements ClientDetails {
 
     @Override
     public Set<String> getScope() {
-        if(CollectionUtils.isEmpty(client.getScopes())) {
-            return new HashSet<>();
-        }
-        return client.getScopes().stream().map(s -> s.getScope()).collect(Collectors.toSet());
+        return scope;
     }
 
     @Override
     public Set<String> getAuthorizedGrantTypes() {
-        if(StringUtils.isEmpty(client.getGrantTypes())) {
-            return new HashSet<>();
-        }
-        return Arrays.asList(client.getGrantTypes().split(",")).stream().collect(Collectors.toSet());
+        return authorizedGrantTypes;
     }
 
     @Override
     public Set<String> getRegisteredRedirectUri() {
-        if(CollectionUtils.isEmpty(client.getRedirectUris())) {
-            return new HashSet<>();
-        }
-        return client.getRedirectUris().stream().map(r -> r.getRedirectUri()).collect(Collectors.toSet());
+        return registeredRedirectUri;
     }
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        if(CollectionUtils.isEmpty(client.getRoles())) {
-            return new ArrayList<>();
-        }
-        return client.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toSet());
+        return authorities;
     }
 
     @Override
     public Integer getAccessTokenValiditySeconds() {
-        return accessTokenValiditySeconds;
+        return null;
     }
 
     @Override

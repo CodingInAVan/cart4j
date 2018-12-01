@@ -12,14 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.common.util.SerializationUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
@@ -32,13 +31,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
-@Component
 public class AuthTokenStore implements TokenStore {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthTokenStore.class);
 
-
     @Override
     public OAuth2Authentication readAuthentication(OAuth2AccessToken oAuth2AccessToken) {
+
+        LOGGER.debug("readAuthentication...");
         return readAuthentication(oAuth2AccessToken.getValue());
     }
 
@@ -92,20 +91,22 @@ public class AuthTokenStore implements TokenStore {
                 .expirationDate(new Timestamp(cal.getTime().getTime()))
                 .build();
         accessTokenRepository.save(accessToken);
+        LOGGER.debug("Token Stored");
     }
 
     @Override
     public OAuth2AccessToken readAccessToken(String tokenValue) {
         AccessToken accessToken = accessTokenRepository.findByTokenKey(extractTokenKey(tokenValue));
+        OAuth2AccessToken oAuth2AccessToken = null;
         if(accessToken != null) {
-            SerializationUtils.deserialize(accessToken.getTokenValue());
+            oAuth2AccessToken = SerializationUtils.deserialize(accessToken.getTokenValue());
         }
-
-        return null;
+        return oAuth2AccessToken;
     }
 
     @Override
     public void removeAccessToken(OAuth2AccessToken oAuth2AccessToken) {
+        LOGGER.debug("removeAccessToken:" + extractTokenKey(oAuth2AccessToken.getValue()));
         accessTokenRepository.deleteByTokenKey(extractTokenKey(oAuth2AccessToken.getValue()));
     }
 
@@ -155,28 +156,40 @@ public class AuthTokenStore implements TokenStore {
     @Override
     public OAuth2AccessToken getAccessToken(OAuth2Authentication oAuth2Authentication) {
         String key = authenticationKeyGenerator.extractKey(oAuth2Authentication);
+        LOGGER.debug("findByAuthenticationKey: " + key);
         AccessToken accessToken = accessTokenRepository.findByAuthenticationKey(key);
+        OAuth2AccessToken oAuth2AccessToken = null;
         if(accessToken != null) {
+            oAuth2AccessToken = SerializationUtils.deserialize(accessToken.getTokenValue());
+            try {
+                String authenticationKey = authenticationKeyGenerator.extractKey(readAuthentication(oAuth2AccessToken));
+                if(oAuth2AccessToken != null && !key.equals(authenticationKey)) {
+                    LOGGER.debug("Remove the old one and generate a new");
+                    oAuth2AccessToken = SerializationUtils.deserialize(accessToken.getTokenValue());
+                    removeAccessToken(oAuth2AccessToken);
 
-            OAuth2AccessToken oAuth2AccessToken = SerializationUtils.deserialize(accessToken.getTokenValue());
-            removeAccessToken(oAuth2AccessToken);
-
-            storeAccessToken(oAuth2AccessToken, oAuth2Authentication);
-            return oAuth2AccessToken;
+                    storeAccessToken(oAuth2AccessToken, oAuth2Authentication);
+                } else {
+                    LOGGER.debug("No access token for authentication" + oAuth2Authentication);
+                }
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+            }
         }
-        return null;
+
+        return oAuth2AccessToken;
     }
 
     @Override
     public Collection<OAuth2AccessToken> findTokensByClientIdAndUserName(String clientUniqueId, String username) {
         List<AccessToken> accessTokens = accessTokenRepository.findByClientUniqueIdAndUsername(clientUniqueId, username);
-        return accessTokens.stream().map(a -> new CustomOAuth2AccessToken(a, a.getClient().getScopes(), new HashMap<>())).collect(Collectors.toList());
+        return accessTokens.stream().map(a -> (OAuth2AccessToken) SerializationUtils.deserialize(a.getTokenValue())).collect(Collectors.toList());
     }
 
     @Override
     public Collection<OAuth2AccessToken> findTokensByClientId(String cilentUniqueId) {
         List<AccessToken> accessTokens = accessTokenRepository.getByCilentUniqueId(cilentUniqueId);
-        return accessTokens.stream().map(a -> new CustomOAuth2AccessToken(a, a.getClient().getScopes(), new HashMap<>())).collect(Collectors.toList());
+        return accessTokens.stream().map(a -> (OAuth2AccessToken) SerializationUtils.deserialize(a.getTokenValue())).collect(Collectors.toList());
     }
 
     protected String extractTokenKey(String value) {
