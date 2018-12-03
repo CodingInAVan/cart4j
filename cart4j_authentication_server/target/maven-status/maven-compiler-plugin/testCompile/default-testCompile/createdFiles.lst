@@ -1,0 +1,4 @@
+com/cart4j/auth/provider/AuthTokenStoreTest.class
+com/cart4j/auth/service/impl/UserDetailsServiceTest.class
+com/cart4j/auth/provider/AuthTokenStoreTest$AuthTokenStoreConfiguration.class
+com/cart4j/auth/service/impl/UserDetailsServiceTest$TestConfiguration.class

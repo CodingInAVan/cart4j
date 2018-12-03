@@ -24,7 +24,7 @@ public class AccessToken implements Serializable {
 
     @Lob
     private byte[] tokenValue;
-    private Timestamp expirationDate;
+    private Date expirationDate;
     private String authenticationKey;
     @Lob
     private byte[] authentication;

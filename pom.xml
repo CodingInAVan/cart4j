@@ -10,6 +10,7 @@
     <modules>
         <module>cart4j_product_service</module>
         <module>cart4j_authentication_server</module>
+        <module>cart4j_common</module>
     </modules>
 
     <packaging>pom</packaging>

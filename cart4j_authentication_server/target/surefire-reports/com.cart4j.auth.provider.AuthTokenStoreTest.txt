@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.cart4j.auth.provider.AuthTokenStoreTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.139 s - in com.cart4j.auth.provider.AuthTokenStoreTest

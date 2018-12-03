@@ -3,14 +3,17 @@ package com.cart4j.auth.provider;
 import com.cart4j.auth.entity.AccessToken;
 import com.cart4j.auth.entity.Client;
 import com.cart4j.auth.entity.RefreshToken;
+import com.cart4j.auth.entity.User;
 import com.cart4j.auth.repository.AccessTokenRepository;
 import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.repository.RefreshTokenRepository;
+import com.cart4j.auth.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.common.util.SerializationUtils;
@@ -78,6 +81,19 @@ public class AuthTokenStore implements TokenStore {
         cal.setTime(new java.util.Date());
         cal.add(Calendar.DATE, 1); // 1 day
 
+        // Assign Client's Roles
+        Map<String, Set<String>> additionalInfo = new HashMap<>();
+        additionalInfo.put("roles", client.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toSet()));
+
+        User user = null;
+        if(!oAuth2Authentication.isClientOnly()) {
+            user = userRepository.getByUsernameOrEmail(oAuth2Authentication.getName());
+            List<String> roles = user.getRoles().stream().map(r -> r.getRole()).collect(Collectors.toList());
+            Set<String> roleInfo = additionalInfo.get("roles");
+            roleInfo.addAll(roles);
+            ((DefaultOAuth2AccessToken) oAuth2AccessToken).setAdditionalInformation(Collections.unmodifiableMap(additionalInfo));
+        }
+
         AccessToken accessToken = AccessToken.builder()
                 .tokenKey(extractTokenKey(oAuth2AccessToken.getValue()))
                 .tokenValue(SerializationUtils.serialize(oAuth2AccessToken))
@@ -85,6 +101,7 @@ public class AuthTokenStore implements TokenStore {
                 .authenticationKey(authenticationKeyGenerator.extractKey(oAuth2Authentication))
                 .authentication(SerializationUtils.serialize(oAuth2Authentication))
                 .client(client)
+                .user(user)
                 .createdAt(new Date())
                 .expirationDate(new Timestamp(cal.getTime().getTime()))
                 .build();
@@ -217,4 +234,6 @@ public class AuthTokenStore implements TokenStore {
     private RefreshTokenRepository refreshTokenRepository;
     @Autowired
     private AuthenticationKeyGenerator authenticationKeyGenerator;
+    @Autowired
+    private UserRepository userRepository;
 }

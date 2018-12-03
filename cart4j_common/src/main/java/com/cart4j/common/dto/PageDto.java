@@ -1,4 +1,4 @@
-package com.cart4j.product.dto.v1;
+package com.cart4j.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageDtoV1<T> {
+public class PageDto<T> {
     private List<T> list;
     private Long offset;
     private Integer totalPage;
     private Integer limit;
+    private Long totalRecords;
 }
