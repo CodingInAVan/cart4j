@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name="c4_client")
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

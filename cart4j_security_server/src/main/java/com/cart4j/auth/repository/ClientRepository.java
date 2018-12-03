@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ClientRepository extends JpaRepository<Client, Long>, JpaSpecificationExecutor<Client> {
     @Query("SELECT c FROM Client c WHERE c.clientUniqueId = ?1")
     Client findByClientUniqueId(String clientUniqueId);
+
+    boolean existsByClientUniqueId(String clientUniqueId);
 }

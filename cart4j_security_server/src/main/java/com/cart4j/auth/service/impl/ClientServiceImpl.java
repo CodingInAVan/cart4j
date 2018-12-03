@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -28,7 +29,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDto addClient(ClientDto client) {
+    public ClientDto addClient(ClientDto client) throws ClientAlreadyExistsException {
+        if(clientRepository.existsByClientUniqueId(client.getClientUniqueId())) {
+            throw new ClientAlreadyExistsException("ClientId is already existing");
+        }
         Client newClient = Client.builder()
                 .clientSecret(passwordEncoder.encode(client.getClientSecret()))
                 .clientUniqueId(client.getClientUniqueId())
@@ -36,6 +40,20 @@ public class ClientServiceImpl implements ClientService {
                 .build();
 
         return ClientDto.from(clientRepository.save(newClient));
+    }
+
+    @Override
+    public ClientDto editClient(Long id, ClientDto client) {
+        Client modifyingClient = clientRepository.getOne(id);
+        modifyingClient.setClientSecret(client.getClientSecret());
+        modifyingClient.setGrantTypes(client.getGrantTypes());
+
+        return ClientDto.from(clientRepository.save(modifyingClient));
+    }
+
+    @Override
+    public void deleteClient(Long id) {
+        clientRepository.deleteById(id);
     }
 
     static class ClientSpec {

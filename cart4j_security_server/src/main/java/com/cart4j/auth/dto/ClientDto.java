@@ -18,6 +18,7 @@ public class ClientDto {
 
     public static ClientDto from(Client client) {
         return ClientDto.builder()
+                .id(client.getId())
                 .clientUniqueId(client.getClientUniqueId())
                 .grantTypes(client.getGrantTypes())
                 .build();
