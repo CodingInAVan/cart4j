@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +27,17 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findAll(spec, pageable).map(ClientDto::from);
     }
 
+    @Override
+    public ClientDto addClient(ClientDto client) {
+        Client newClient = Client.builder()
+                .clientSecret(passwordEncoder.encode(client.getClientSecret()))
+                .clientUniqueId(client.getClientUniqueId())
+                .grantTypes(client.getGrantTypes())
+                .build();
+
+        return ClientDto.from(clientRepository.save(newClient));
+    }
+
     static class ClientSpec {
         public static Specification<Client> searchKey(String searchKey) {
             return (root, query, builder) -> builder.like(root.get("client_unique_id"), "%" + searchKey + "%");
@@ -34,4 +46,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 }
