@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -25,6 +26,15 @@ public class RoleServiceImpl implements RoleService {
             spec = RoleSpec.search(searchKey);
         }
         return roleRepository.findAll(spec, pageable).map(RoleDto::from);
+    }
+
+    @Override
+    public RoleDto getRole(Long id) {
+        Role role = roleRepository.getOne(id);
+        if(Objects.nonNull(role)) {
+            return RoleDto.from(roleRepository.getOne(id));
+        }
+        return null;
     }
 
     @Override

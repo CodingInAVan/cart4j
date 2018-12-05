@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface RoleService {
     Page<RoleDto> getRoles(Pageable pageable, String searchKey);
     RoleDto addRole(RoleDto role) throws RoleAlreadyExistingException;
+    RoleDto getRole(Long id);
     RoleDto editRole(Long id, RoleDto role) throws RoleAlreadyExistingException;
     void deleteRole(Long id);
 }
