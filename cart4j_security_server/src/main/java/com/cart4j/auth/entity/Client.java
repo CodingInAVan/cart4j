@@ -26,9 +26,7 @@ public class Client implements Serializable {
     private List<AccessToken> accessTokens;
 
 
-    @ManyToMany
-    @JoinTable(name = "c4_client_redirect_uri", joinColumns=@JoinColumn(name="client_id",
-            referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "redirect_uri_id", referencedColumnName = "id"))
+    @OneToMany
     private List<RedirectUri> redirectUris;
 
     @ManyToMany

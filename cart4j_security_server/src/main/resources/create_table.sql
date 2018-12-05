@@ -64,14 +64,17 @@ create index c4_client_role_c4_role_id_fk
 on cart4j_auth.c4_client_role (role_id)
 ;
 
-create table cart4j_auth.c4_redirect_uri
+create table c4_redirect_uri
 (
-  id bigint auto_increment
+  id           bigint auto_increment
     primary key,
+  client_id    bigint       not null,
   redirect_uri varchar(255) null
 )
-  engine=InnoDB collate=utf8_unicode_ci
-;
+  engine = InnoDB
+  collate = utf8_unicode_ci;
+
+
 
 create table cart4j_auth.c4_client_redirect_uri
 (

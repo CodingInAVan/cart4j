@@ -1,9 +1,6 @@
 package com.cart4j.auth.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +8,7 @@ import java.util.List;
 @Entity
 @Table(name="c4_redirect_uri")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,6 +18,7 @@ public class RedirectUri {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String redirectUri;
-    @ManyToMany(mappedBy="redirectUris")
-    private List<Client> clients;
+    @ManyToOne
+    @JoinColumn(name="client_id")
+    private Client client;
 }
