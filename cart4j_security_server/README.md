@@ -1,4 +1,4 @@
-#Authenticatoin Server
+# Authenticatoin Server
 
-##Authentication Server implemented with Spring OAuth2.
+## Authentication Server implemented with Spring OAuth2.
  
