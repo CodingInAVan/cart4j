@@ -1,7 +1,6 @@
 package com.cart4j.auth.service.impl;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.config.H2TestConfig;
 import com.cart4j.auth.dto.RoleDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.repository.RoleRepository;
@@ -19,9 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {
-        Cart4jAuthApp.class,
-        H2TestConfig.class})
+@SpringBootTest(classes = {Cart4jAuthApp.class})
 @ActiveProfiles("test")
 public class RoleServiceImplTest {
     @Autowired

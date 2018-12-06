@@ -1,10 +1,8 @@
 package com.cart4j.auth.controller;
 
-import com.cart4j.auth.core.UserPrincipal;
 import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.dto.ErrorResponse;
 import com.cart4j.auth.service.ClientService;
-import com.cart4j.auth.service.impl.ClientDetailsServiceImpl;
 import com.cart4j.common.dto.PageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

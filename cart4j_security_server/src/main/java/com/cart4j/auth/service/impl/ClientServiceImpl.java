@@ -29,6 +29,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public ClientDto getClient(Long id) {
+        if(!clientRepository.existsById(id)) {
+            return null;
+        }
+        return ClientDto.from(clientRepository.getOne(id));
+    }
+
+    @Override
     public ClientDto addClient(ClientDto client) throws ClientAlreadyExistsException {
         if(clientRepository.existsByClientUniqueId(client.getClientUniqueId())) {
             throw new ClientAlreadyExistsException("ClientId is already existing");
@@ -45,7 +53,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto editClient(Long id, ClientDto client) {
         Client modifyingClient = clientRepository.getOne(id);
-        modifyingClient.setClientSecret(client.getClientSecret());
+        modifyingClient.setClientSecret(passwordEncoder.encode(client.getClientSecret()));
         modifyingClient.setGrantTypes(client.getGrantTypes());
 
         return ClientDto.from(clientRepository.save(modifyingClient));

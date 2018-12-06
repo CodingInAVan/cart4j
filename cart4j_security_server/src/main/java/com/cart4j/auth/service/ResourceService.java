@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ResourceService {
     Page<ResourceDto> getResources(Pageable pageable, String searchKey);
+    ResourceDto getResource(Long id);
     ResourceDto addResource(ResourceDto resource) throws ResourceAlreadyExistingException;
     ResourceDto editResource(Long resourceId, ResourceDto resource) throws ResourceAlreadyExistingException;
     void deleteResource(Long resourceId);

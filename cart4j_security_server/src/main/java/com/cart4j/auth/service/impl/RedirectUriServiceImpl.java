@@ -31,6 +31,14 @@ public class RedirectUriServiceImpl implements RedirectUriService {
     }
 
     @Override
+    public RedirectUriDto getRedirectUri(Long id) {
+        if(!redirectUriRepository.existsById(id)) {
+            return null;
+        }
+        return RedirectUriDto.from(redirectUriRepository.getOne(id));
+    }
+
+    @Override
     public RedirectUriDto addRedirectUri(Long clientId, RedirectUriDto redirectUri) {
         Client client = clientRepository.getOne(clientId);
         RedirectUri newRedirectUri = RedirectUri.builder().client(client)

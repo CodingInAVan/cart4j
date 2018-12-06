@@ -30,8 +30,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto getRole(Long id) {
-        Role role = roleRepository.getOne(id);
-        if(Objects.nonNull(role)) {
+        if(roleRepository.existsById(id)) {
             return RoleDto.from(roleRepository.getOne(id));
         }
         return null;

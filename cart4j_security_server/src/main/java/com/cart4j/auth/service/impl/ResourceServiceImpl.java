@@ -32,6 +32,14 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public ResourceDto getResource(Long id) {
+        if(!resourceRepository.existsById(id)) {
+            return null;
+        }
+        return ResourceDto.from(resourceRepository.getOne(id));
+    }
+
+    @Override
     public ResourceDto addResource(ResourceDto resource) throws ResourceAlreadyExistingException {
         if(resourceRepository.existsByResourceUniqueId(resource.getResourceUniqueId())) {
             throw new ResourceAlreadyExistingException("Resource[" + resource.getResourceUniqueId() + "] is already in use.");
