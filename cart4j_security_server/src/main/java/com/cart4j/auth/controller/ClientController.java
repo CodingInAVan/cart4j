@@ -22,7 +22,7 @@ import java.security.Principal;
 @RequestMapping("/api/auth/client")
 public class ClientController {
     @GetMapping
-    @PreAuthorize("hasAuthority('CLIENT_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("hasAuthority('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     PageDto<ClientDto> getClients(Pageable pageable, String searchKey) {
         Page<ClientDto> clientsPage = clientService.getClients(pageable, searchKey);
         return PageDto.<ClientDto>builder().limit(pageable.getPageSize())
@@ -34,7 +34,7 @@ public class ClientController {
     }
 
     @PostMapping
-    @PreAuthorize("#oauth2.hasScope('USER_API_ACCESS') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto addClient(Principal principal, @RequestBody ClientDto client) throws ClientAlreadyExistsException {
         ClientDto newClient = clientService.addClient(client);
         LOGGER.info("{} added the client {}", principal.getName(), newClient.getId());
@@ -42,7 +42,7 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("#oauth2.hasScope('USER_API_ACCESS') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto editClient(Principal principal, @RequestBody ClientDto client, @PathVariable Long id) {
         ClientDto modifiedClient = clientService.editClient(id, client);
         LOGGER.info("{} modified the client {}", principal.getName(), modifiedClient.getId());
@@ -50,7 +50,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("#oauth2.hasScope('USER_API_ACCESS') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     void deleteClient(Principal principal, @PathVariable Long id) {
         clientService.deleteClient(id);
         LOGGER.info("{} modified the client {}", principal.getName(), id);

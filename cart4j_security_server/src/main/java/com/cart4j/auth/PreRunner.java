@@ -1,9 +1,11 @@
 package com.cart4j.auth;
 
 import com.cart4j.auth.dto.ClientDto;
+import com.cart4j.auth.dto.ScopeDto;
 import com.cart4j.auth.dto.UserDto;
 import com.cart4j.auth.repository.UserRepository;
 import com.cart4j.auth.service.ClientService;
+import com.cart4j.auth.service.ScopeService;
 import com.cart4j.auth.service.UserService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -28,6 +31,8 @@ public class PreRunner implements CommandLineRunner {
     private UserService userService;
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private ScopeService scopeService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,12 +56,12 @@ public class PreRunner implements CommandLineRunner {
 
             String password = scanner.next();
 
-            UserDto userDto = UserDto.builder()
+            UserDto user = UserDto.builder()
                     .email(email)
                     .password(password)
                     .username(username)
                     .build();
-            userService.addUser(userDto);
+            userService.addUser(user);
 
             System.out.println("Please input clientId for Auth API: ");
 
@@ -70,13 +75,21 @@ public class PreRunner implements CommandLineRunner {
              * The admin user with this client credential will be required for all api accesses for this security service.
              */
 
-            ClientDto clientDto = ClientDto.builder()
+            ClientDto client = ClientDto.builder()
                     .clientSecret(clientPassword)
                     .clientUniqueId(clientUniqueId)
                     .grantTypes("client_credentials,password")
                     .build();
 
-            clientService.addClient(clientDto);
+            client = clientService.addClient(client);
+
+            ScopeDto scope = ScopeDto.builder()
+                    .scope("SECURITY_API_ADMIN")
+                    .description("API Access for Security Server")
+                    .build();
+
+            scope = scopeService.addScope(scope);
+            clientService.setScopes(Arrays.asList(scope.getId()), client.getId());
 
             System.out.println("The admin user and the client have been created...");
         }
