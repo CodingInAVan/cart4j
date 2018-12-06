@@ -26,9 +26,7 @@ public class Client implements Serializable {
     private List<AccessToken> accessTokens;
 
 
-    @ManyToMany
-    @JoinTable(name = "c4_client_redirect_uri", joinColumns=@JoinColumn(name="client_id",
-            referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "redirect_uri_id", referencedColumnName = "id"))
+    @OneToMany(mappedBy = "client")
     private List<RedirectUri> redirectUris;
 
     @ManyToMany
@@ -45,6 +43,7 @@ public class Client implements Serializable {
     @JoinTable(name = "c4_client_role", joinColumns=@JoinColumn(name="client_id",
             referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
+
 
     private String grantTypes;
 }

@@ -1,9 +1,6 @@
 package com.cart4j.auth.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +9,7 @@ import java.util.Collection;
 @Entity
 @Table(name="c4_role")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

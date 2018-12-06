@@ -6,6 +6,7 @@ import com.cart4j.auth.entity.Scope;
 import com.cart4j.auth.repository.AccessTokenRepository;
 import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.repository.RefreshTokenRepository;
+import com.cart4j.auth.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,6 +49,8 @@ public class AuthTokenStoreTest {
     private RefreshTokenRepository refreshTokenRepository;
     @MockBean
     private AuthenticationKeyGenerator authenticationKeyGenerator;
+    @MockBean
+    private UserRepository userRepository;
 
     @Autowired
     private TokenStore tokenStore;

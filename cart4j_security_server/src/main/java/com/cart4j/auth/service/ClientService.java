@@ -5,9 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 
+import java.util.List;
+
 public interface ClientService {
     Page<ClientDto> getClients(Pageable pageable, String searchKey);
+    ClientDto getClient(Long id);
     ClientDto addClient(ClientDto client) throws ClientAlreadyExistsException;
+    ClientDto setScopes(List<Long> scopeIds, Long clientId);
     ClientDto editClient(Long id, ClientDto client) throws ClientAlreadyExistsException;
     void deleteClient(Long id);
 }

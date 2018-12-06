@@ -1,15 +1,14 @@
 package com.cart4j.auth.dto;
 
 import com.cart4j.auth.entity.Client;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class ClientDto {
     private Long id;
     private String clientUniqueId;
