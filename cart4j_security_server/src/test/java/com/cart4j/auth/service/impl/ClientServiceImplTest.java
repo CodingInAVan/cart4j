@@ -21,22 +21,18 @@ public class ClientServiceImplTest {
     @Test
     public void test_persistFunction() {
         ClientDto client = ClientDto.builder()
-                .clientSecret("12345")
                 .clientUniqueId("TEST_1")
                 .grantTypes("password")
                 .build();
         client = clientService.addClient(client);
         System.out.println(client);
         assertThat(client.getId()).isNotNull();
-        assertThat(passwordEncoder.matches("12345", client.getClientSecret())).isTrue();
 
 
         ClientDto updating = ClientDto.builder()
-                .clientSecret("23456")
                 .clientUniqueId("TEST_2")
                 .build();
         updating = clientService.editClient(client.getId(), updating);
-        assertThat(passwordEncoder.matches("23456", updating.getClientSecret())).isTrue();
         // Does not allow to change the client unique id
         assertThat(updating.getClientUniqueId()).isEqualTo("TEST_1");
 

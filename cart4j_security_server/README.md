@@ -24,9 +24,7 @@ Please refer this <a href='https://projectlombok.org/setup/overview'>page</a>
     Please input password for admin:
     12345
     
-    Please input clientId for Auth API:
-    CLIENT-SECURITY-API 
-    Please input password for it:
+    Please input password for client:
     12345
     ```
 4. After you created the admin user, it will ask to create client information for api accesses (managing resources, clients, users, roles and scopes) for this security service.
@@ -41,5 +39,12 @@ curl -X POST -u 'CLIENT-SECURITY-API:12345' -d 'username=ADMIN&password=12345&gr
 ```
 and you will get something like this: 
 ```
-{"access_token":"8e80b929-8258-45d0-a0ec-72a1d7d1986c","token_type":"bearer","expires_in":43199,"scope":"SECURITY_API_ADMIN","roles":[]}
+{"access_token":"7a6d895b-05ee-4351-902a-91f83ca0b0b3","token_type":"bearer","expires_in":43199,"scope":"SECURITY_API_ADMIN","roles":["USER_AUTH_ADMIN"]}
+```
+
+### API Access
+To get a list of clients
+
+```
+curl -H "Authorization: Bearer 7a6d895b-05ee-4351-902a-91f83ca0b0b3" http://localhost:8082/api/auth/client
 ```

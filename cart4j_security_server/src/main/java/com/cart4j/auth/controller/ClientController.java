@@ -22,7 +22,7 @@ import java.security.Principal;
 @RequestMapping("/api/auth/client")
 public class ClientController {
     @GetMapping
-    @PreAuthorize("hasAuthority('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     PageDto<ClientDto> getClients(Pageable pageable, String searchKey) {
         Page<ClientDto> clientsPage = clientService.getClients(pageable, searchKey);
         return PageDto.<ClientDto>builder().limit(pageable.getPageSize())

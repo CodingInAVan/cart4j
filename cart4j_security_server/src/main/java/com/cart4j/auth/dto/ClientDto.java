@@ -2,6 +2,7 @@ package com.cart4j.auth.dto;
 
 import com.cart4j.auth.entity.Client;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Builder
 @NoArgsConstructor
@@ -17,7 +18,6 @@ public class ClientDto {
     public static ClientDto from(Client client) {
         return ClientDto.builder()
                 .id(client.getId())
-                .clientSecret(client.getClientSecret())
                 .clientUniqueId(client.getClientUniqueId())
                 .grantTypes(client.getGrantTypes())
                 .build();

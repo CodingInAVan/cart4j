@@ -1,8 +1,10 @@
 package com.cart4j.auth.service.impl;
 
 import com.cart4j.auth.dto.UserDto;
+import com.cart4j.auth.entity.Role;
 import com.cart4j.auth.entity.User;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
+import com.cart4j.auth.repository.RoleRepository;
 import com.cart4j.auth.repository.UserRepository;
 import com.cart4j.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -41,6 +48,27 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(user.getPassword()))
                 .build();
         return UserDto.from(userRepository.save(newUser));
+    }
+
+    @Override
+    public UserDto setRole(List<Long> roleIds, Long userId) {
+        User user = userRepository.getOne(userId);
+        Set<Long> addingIds = new HashSet<>(roleIds);
+        if(!CollectionUtils.isEmpty(user.getRoles())) {
+            for(Role role : user.getRoles()) {
+                if(!addingIds.contains(role.getId())) {
+                    roleRepository.deleteById(role.getId());
+                } else {
+                    // Remove if it already exists
+                    addingIds.remove(role.getId());
+                }
+            }
+        }
+
+        if(!CollectionUtils.isEmpty(addingIds)) {
+            user.setRoles(addingIds.stream().map(roleRepository::getOne).collect(Collectors.toList()));
+        }
+        return UserDto.from(userRepository.save(user));
     }
 
     @Override
@@ -78,4 +106,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 }

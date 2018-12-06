@@ -1,10 +1,12 @@
 package com.cart4j.auth;
 
 import com.cart4j.auth.dto.ClientDto;
+import com.cart4j.auth.dto.RoleDto;
 import com.cart4j.auth.dto.ScopeDto;
 import com.cart4j.auth.dto.UserDto;
 import com.cart4j.auth.repository.UserRepository;
 import com.cart4j.auth.service.ClientService;
+import com.cart4j.auth.service.RoleService;
 import com.cart4j.auth.service.ScopeService;
 import com.cart4j.auth.service.UserService;
 import org.apache.commons.io.IOUtils;
@@ -33,6 +35,8 @@ public class PreRunner implements CommandLineRunner {
     private ClientService clientService;
     @Autowired
     private ScopeService scopeService;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -61,13 +65,19 @@ public class PreRunner implements CommandLineRunner {
                     .password(password)
                     .username(username)
                     .build();
-            userService.addUser(user);
+            user = userService.addUser(user);
 
-            System.out.println("Please input clientId for Auth API: ");
+            RoleDto role = RoleDto.builder()
+                    .role("USER_AUTH_ADMIN")
+                    .description("Administrator Role for Auth")
+                    .build();
+            role = roleService.addRole(role);
 
-            String clientUniqueId = scanner.next();
+            userService.setRole(Arrays.asList(role.getId()), user.getId());
 
-            System.out.println("Please input password for it: ");
+            String clientUniqueId = "CLIENT-SECURITY-API";
+
+            System.out.println("Please input password for client: ");
 
             String clientPassword = scanner.next();
 
