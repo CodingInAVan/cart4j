@@ -19,5 +19,5 @@ Please refer this <a href='https://projectlombok.org/setup/overview'>page</a>
 
 4. After you created the admin user, it will ask to create client information for api accesses (managing resources, clients, users, roles and scopes) for this security service.
 
-5. Shutdown the server and rerun it with `noninstall` profile 
+5. Shutdown the server and rerun it with `noninstall` profile <br/>
 ```java -Dspring.profiles.active=dev -Dspring.profiles.include=noninstall -jar security-server-1.0.0-SNAPSHOT.jar```
