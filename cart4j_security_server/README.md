@@ -4,10 +4,10 @@
  
 ### Prerequisite
 - You will need the lombok plugin to compile it.
-Please refer this <a href='https://projectlombok.org/setup/overview'>page</a>
+Please refer to this <a href='https://projectlombok.org/setup/overview'>page</a>
 - Mysql 5.7+ 
 
-### Step
+### Steps
 
 1. Do maven install. <br/>
 ```mvn clean install```
