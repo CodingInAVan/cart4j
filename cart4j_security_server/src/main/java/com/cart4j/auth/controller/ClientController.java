@@ -2,6 +2,8 @@ package com.cart4j.auth.controller;
 
 import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.dto.ErrorResponse;
+import com.cart4j.auth.exception.ClientNotFoundException;
+import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.service.ClientService;
 import com.cart4j.common.dto.PageDto;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.web.bind.annotation.*;
+import sun.security.acl.PrincipalImpl;
 
 import java.security.Principal;
 
@@ -56,7 +59,18 @@ public class ClientController {
         LOGGER.info("{} modified the client {}", principal.getName(), id);
     }
 
-    @ExceptionHandler(ClientAlreadyExistsException.class)
+    /**
+     * Adding a scope to the client.
+     */
+    @PostMapping("/{id}/scope/{scopeId}")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    ClientDto addScope(@PathVariable Long id, @PathVariable Long scopeId, Principal principal) throws ClientNotFoundException, ScopeNotFoundException {
+        ClientDto client = clientService.addScope(scopeId, id);
+        LOGGER.info("{} added a scope {} to client {}", principal.getName(), scopeId, client.getId());
+        return client;
+    }
+
+    @ExceptionHandler({ClientAlreadyExistsException.class,ClientNotFoundException.class, ScopeNotFoundException.class})
     ResponseEntity<ErrorResponse> clientAlreadyExistsException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
