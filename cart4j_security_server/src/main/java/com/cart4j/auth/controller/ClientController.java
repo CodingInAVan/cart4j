@@ -2,6 +2,8 @@ package com.cart4j.auth.controller;
 
 import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.dto.ErrorResponse;
+import com.cart4j.auth.exception.ClientNotFoundException;
+import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.service.ClientService;
 import com.cart4j.common.dto.PageDto;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.web.bind.annotation.*;
+import sun.security.acl.PrincipalImpl;
 
 import java.security.Principal;
 
@@ -37,7 +40,7 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto addClient(Principal principal, @RequestBody ClientDto client) throws ClientAlreadyExistsException {
         ClientDto newClient = clientService.addClient(client);
-        LOGGER.info("{} added the client {}", principal.getName(), newClient.getId());
+        LOGGER.info("{} added the client[{}]", principal.getName(), newClient.getId());
         return newClient;
     }
 
@@ -45,7 +48,7 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto editClient(Principal principal, @RequestBody ClientDto client, @PathVariable Long id) {
         ClientDto modifiedClient = clientService.editClient(id, client);
-        LOGGER.info("{} modified the client {}", principal.getName(), modifiedClient.getId());
+        LOGGER.info("{} modified the client[{}]", principal.getName(), modifiedClient.getId());
         return modifiedClient;
     }
 
@@ -53,11 +56,22 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     void deleteClient(Principal principal, @PathVariable Long id) {
         clientService.deleteClient(id);
-        LOGGER.info("{} modified the client {}", principal.getName(), id);
+        LOGGER.info("{} modified the client[{}]", principal.getName(), id);
     }
 
-    @ExceptionHandler(ClientAlreadyExistsException.class)
-    ResponseEntity<ErrorResponse> clientAlreadyExistsException(Exception e) {
+    /**
+     * Adding a scope to the client.
+     */
+    @PostMapping("/{id}/scope/{scopeId}")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    ClientDto addScope(@PathVariable Long id, @PathVariable Long scopeId, Principal principal) throws ClientNotFoundException, ScopeNotFoundException {
+        ClientDto client = clientService.addScope(scopeId, id);
+        LOGGER.info("{} added a scope[{}] to client[{}]", principal.getName(), scopeId, client.getId());
+        return client;
+    }
+
+    @ExceptionHandler({ClientAlreadyExistsException.class,ClientNotFoundException.class, ScopeNotFoundException.class})
+    ResponseEntity<ErrorResponse> clientException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
 

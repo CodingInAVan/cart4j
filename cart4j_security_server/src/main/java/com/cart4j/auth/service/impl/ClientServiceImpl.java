@@ -3,11 +3,11 @@ package com.cart4j.auth.service.impl;
 import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.entity.Client;
 import com.cart4j.auth.entity.Scope;
+import com.cart4j.auth.exception.ClientNotFoundException;
+import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.repository.ScopeRepository;
 import com.cart4j.auth.service.ClientService;
-import com.cart4j.auth.service.ScopeService;
-import com.cart4j.common.dto.PageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +55,27 @@ public class ClientServiceImpl implements ClientService {
         if(!CollectionUtils.isEmpty(addingIds)) {
             client.setScopes(addingIds.stream().map(scopeRepository::getOne).collect(Collectors.toList()));
         }
+        return ClientDto.from(clientRepository.save(client));
+    }
+
+    @Override
+    public ClientDto addScope(Long scopeId, Long clientId) throws ScopeNotFoundException, ClientNotFoundException {
+        if(!scopeRepository.existsById(scopeId)) {
+            throw new ScopeNotFoundException("Scope[" + scopeId + "] does not exist");
+        }
+        Scope scope = scopeRepository.getOne(scopeId);
+
+        if(!clientRepository.existsById(clientId)) {
+            throw new ClientNotFoundException("Client[" + clientId + "] does not exist");
+        }
+        Client client = clientRepository.getOne(clientId);
+
+        if(CollectionUtils.isEmpty(client.getScopes())) {
+            client.setScopes(Arrays.asList(scope));
+        } else {
+            client.getScopes().add(scope);
+        }
+
         return ClientDto.from(clientRepository.save(client));
     }
 
