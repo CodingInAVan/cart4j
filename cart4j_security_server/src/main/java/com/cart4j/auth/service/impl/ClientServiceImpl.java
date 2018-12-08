@@ -8,8 +8,6 @@ import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.repository.ScopeRepository;
 import com.cart4j.auth.service.ClientService;
-import com.cart4j.auth.service.ScopeService;
-import com.cart4j.common.dto.PageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

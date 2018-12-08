@@ -40,7 +40,7 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto addClient(Principal principal, @RequestBody ClientDto client) throws ClientAlreadyExistsException {
         ClientDto newClient = clientService.addClient(client);
-        LOGGER.info("{} added the client {}", principal.getName(), newClient.getId());
+        LOGGER.info("{} added the client[{}]", principal.getName(), newClient.getId());
         return newClient;
     }
 
@@ -48,7 +48,7 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto editClient(Principal principal, @RequestBody ClientDto client, @PathVariable Long id) {
         ClientDto modifiedClient = clientService.editClient(id, client);
-        LOGGER.info("{} modified the client {}", principal.getName(), modifiedClient.getId());
+        LOGGER.info("{} modified the client[{}]", principal.getName(), modifiedClient.getId());
         return modifiedClient;
     }
 
@@ -56,7 +56,7 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     void deleteClient(Principal principal, @PathVariable Long id) {
         clientService.deleteClient(id);
-        LOGGER.info("{} modified the client {}", principal.getName(), id);
+        LOGGER.info("{} modified the client[{}]", principal.getName(), id);
     }
 
     /**
@@ -66,12 +66,12 @@ public class ClientController {
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
     ClientDto addScope(@PathVariable Long id, @PathVariable Long scopeId, Principal principal) throws ClientNotFoundException, ScopeNotFoundException {
         ClientDto client = clientService.addScope(scopeId, id);
-        LOGGER.info("{} added a scope {} to client {}", principal.getName(), scopeId, client.getId());
+        LOGGER.info("{} added a scope[{}] to client[{}]", principal.getName(), scopeId, client.getId());
         return client;
     }
 
     @ExceptionHandler({ClientAlreadyExistsException.class,ClientNotFoundException.class, ScopeNotFoundException.class})
-    ResponseEntity<ErrorResponse> clientAlreadyExistsException(Exception e) {
+    ResponseEntity<ErrorResponse> clientException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
 
