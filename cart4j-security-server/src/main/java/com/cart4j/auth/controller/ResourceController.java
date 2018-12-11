@@ -1,6 +1,6 @@
 package com.cart4j.auth.controller;
 
-import com.cart4j.auth.dto.ErrorResponse;
+import com.cart4j.common.dto.ErrorResponse;
 import com.cart4j.auth.dto.ResourceDto;
 import com.cart4j.auth.exception.ResourceAlreadyExistingException;
 import com.cart4j.auth.service.ResourceService;
@@ -18,7 +18,7 @@ import java.security.Principal;
 
 
 @RestController
-@RequestMapping("/api/auth/resource")
+@RequestMapping("/api/auth/resources")
 public class ResourceController {
     @GetMapping
     PageDto<ResourceDto> getResources(Pageable pageable, @RequestParam(name="searchKey", required = false) String searchKey) {
@@ -49,7 +49,7 @@ public class ResourceController {
 
 
     @ExceptionHandler({ResourceAlreadyExistingException.class})
-    ResponseEntity<ErrorResponse> resourcException(Exception e) {
+    ResponseEntity<ErrorResponse> handleResourcException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceController.class);

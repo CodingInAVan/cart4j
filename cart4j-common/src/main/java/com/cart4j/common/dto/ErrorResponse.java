@@ -1,4 +1,4 @@
-package com.cart4j.auth.dto;
+package com.cart4j.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

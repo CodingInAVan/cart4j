@@ -1,10 +1,8 @@
 package com.cart4j.auth.controller;
 
-import com.cart4j.auth.dto.ErrorResponse;
-import com.cart4j.auth.dto.RoleDto;
+import com.cart4j.common.dto.ErrorResponse;
 import com.cart4j.auth.dto.ScopeDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
-import com.cart4j.auth.service.RoleService;
 import com.cart4j.auth.service.ScopeService;
 import com.cart4j.common.dto.PageDto;
 import org.slf4j.Logger;
@@ -19,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/auth/scope")
+@RequestMapping("/api/auth/scopes")
 public class ScopeController {
     @GetMapping
     PageDto<ScopeDto> getRoles(Pageable pageable, @RequestParam(name="searchKey", required = false) String searchKey) {
@@ -49,7 +47,7 @@ public class ScopeController {
     }
 
     @ExceptionHandler({RoleAlreadyExistingException.class})
-    ResponseEntity<ErrorResponse> roleException(Exception e) {
+    ResponseEntity<ErrorResponse> handleScopeException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
 

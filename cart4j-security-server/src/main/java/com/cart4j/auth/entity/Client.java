@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
 public class Client implements Serializable {
    private static final long serialVersionUID = -5850296378213921930L;

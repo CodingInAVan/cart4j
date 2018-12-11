@@ -1,7 +1,7 @@
 package com.cart4j.auth.controller;
 
 import com.cart4j.auth.dto.ClientDto;
-import com.cart4j.auth.dto.ErrorResponse;
+import com.cart4j.common.dto.ErrorResponse;
 import com.cart4j.auth.exception.ClientNotFoundException;
 import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.service.ClientService;
@@ -16,13 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.web.bind.annotation.*;
-import sun.security.acl.PrincipalImpl;
 
 import java.security.Principal;
 
 
 @RestController
-@RequestMapping("/api/auth/client")
+@RequestMapping("/api/auth/clients")
 public class ClientController {
     @GetMapping
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
@@ -71,7 +70,7 @@ public class ClientController {
     }
 
     @ExceptionHandler({ClientAlreadyExistsException.class,ClientNotFoundException.class, ScopeNotFoundException.class})
-    ResponseEntity<ErrorResponse> clientException(Exception e) {
+    ResponseEntity<ErrorResponse> handleClientException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
 
