@@ -42,7 +42,7 @@ public class PreRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         /**
          * When you initially run this application on server, you will need to create tables
-         * and add an admin user with basic roles.
+         * and add an admin user with admin roles.
          *
          */
         if(install) {

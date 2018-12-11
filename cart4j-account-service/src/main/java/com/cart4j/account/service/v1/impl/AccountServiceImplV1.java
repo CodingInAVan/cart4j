@@ -45,8 +45,7 @@ public class AccountServiceImplV1 implements AccountServiceV1 {
                 .accountName(account.getAccountName())
                 .accountUniqueId(account.getAccountUniqueId())
                 .description(account.getDescription())
-                .id(account.getId())
-                .status(AccountStatus.ACTIVATED)
+                .status(AccountStatus.valueOf(account.getStatus()))
                 .build();
         return AccountDtoV1.from(accountRepository.save(newAccount));
     }

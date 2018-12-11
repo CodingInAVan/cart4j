@@ -32,7 +32,7 @@ public class AccountController {
                 .build();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/user/{username}")
     @PreAuthorize("#oauth2.hasScope('ACCOUNT_API_READ') or #oauth2.hasScope('ACCOUNT_API_WRITE')")
     List<AccountDtoV1> getAccountsByUsername(@PathVariable String username) {
         return accountServiceV1.getAccountsByUsername(username);
