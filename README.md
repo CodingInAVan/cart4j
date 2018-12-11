@@ -1,8 +1,14 @@
 # cart4j
-Provides all the necessary functions for shopping carts
+Cart4j is a microservices-based ecommerce platform. 
 
 ## Services
- 
+
+### Security Service
+- Implemented with Spring OAuth2.
+
+### Account Service
+- All apis provided with account-id. 
+
 ### Cart Service
 
 ### Layout Service
@@ -21,7 +27,6 @@ Provides all the necessary functions for shopping carts
 
 ### Customer Service
 
-### Authentication Service
 
 ## Front 
 
