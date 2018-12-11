@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/auth/redirect-uri")
+@RequestMapping("/api/auth/redirect-uris")
 public class RedirectUriController {
     @GetMapping
     PageDto<RedirectUriDto> getRedirectUris(Pageable pageable, @RequestParam(name="searchKey", required = false) String searchKey) {

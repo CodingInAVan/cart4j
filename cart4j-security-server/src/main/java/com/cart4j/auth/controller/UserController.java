@@ -1,6 +1,6 @@
 package com.cart4j.auth.controller;
 
-import com.cart4j.auth.dto.ErrorResponse;
+import com.cart4j.common.dto.ErrorResponse;
 import com.cart4j.auth.dto.UserDto;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
 import com.cart4j.auth.service.UserService;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/auth/user")
+@RequestMapping("/api/auth/users")
 public class UserController {
     @GetMapping
     PageDto<UserDto> getUsers(Pageable pageable, @RequestParam(name="searchKey", required = false) String searchKey) {
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @ExceptionHandler({UserAlreadyExistingException.class})
-    ResponseEntity<ErrorResponse> userException(Exception e) {
+    ResponseEntity<ErrorResponse> handleUserException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse.builder().errorCode(HttpStatus.PRECONDITION_FAILED.value()).message(e.getMessage()).build());
     }
 

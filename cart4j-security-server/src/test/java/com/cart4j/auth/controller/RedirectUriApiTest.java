@@ -60,7 +60,7 @@ public class RedirectUriApiTest {
     public void setUp() throws UserAlreadyExistingException, RoleAlreadyExistingException {
         testAuth.install();
         tokenHost = "http://localhost:" + randomServerPort + "/oauth/token";
-        serverHost = "http://localhost:" + randomServerPort + "/api/auth/redirect-uri/client/";
+        serverHost = "http://localhost:" + randomServerPort + "/api/auth/redirect-uris/client/";
         token = testAuth.requestToken(tokenHost);
     }
     @Test

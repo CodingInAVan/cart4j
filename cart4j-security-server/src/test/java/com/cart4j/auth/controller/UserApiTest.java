@@ -55,7 +55,7 @@ public class UserApiTest {
     public void setUp() throws UserAlreadyExistingException, RoleAlreadyExistingException {
         testAuth.install();
         tokenHost = "http://localhost:" + randomServerPort + "/oauth/token";
-        serverHost = "http://localhost:" + randomServerPort + "/api/auth/user";
+        serverHost = "http://localhost:" + randomServerPort + "/api/auth/users";
         token = testAuth.requestToken(tokenHost);
     }
     @Test
