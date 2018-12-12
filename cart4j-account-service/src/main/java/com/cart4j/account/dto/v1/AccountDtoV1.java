@@ -20,13 +20,14 @@ public class AccountDtoV1 {
 
     private String description;
 
-    private AccountStatus status;
+    private String status;
 
     public static AccountDtoV1 from(Account account) {
         return AccountDtoV1.builder()
                 .accountName(account.getAccountName())
                 .accountUniqueId(account.getAccountUniqueId())
                 .description(account.getDescription())
+                .status(account.getStatus().name())
                 .id(account.getId())
                 .build();
     }

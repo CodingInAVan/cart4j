@@ -7,7 +7,7 @@ Cart4j is a microservices-based ecommerce platform.
 - Implemented with Spring OAuth2.
 
 ### Account Service
-- All apis provided with account-id. 
+- Managing accounts.
 
 ### Cart Service
 

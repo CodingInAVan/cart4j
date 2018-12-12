@@ -3,7 +3,7 @@ create table cart4j_account.c4_account (
   account_unique_id varchar(64) not null,
   account_name varchar(128) not null,
   description text,
-  status tinyint(2)
+  status varchar(24)
 ) ENGINE=Innodb DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 create table cart4j_account.c4_account_user (

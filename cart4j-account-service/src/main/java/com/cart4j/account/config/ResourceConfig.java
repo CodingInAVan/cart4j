@@ -30,8 +30,7 @@ import java.io.IOException;
 @EnableResourceServer
 public class ResourceConfig extends ResourceServerConfigurerAdapter {
 
-    @Value("${resource.id}")
-    private String resourceId;
+    private static final String RESOURCE_ID = "account-service";
 
     @Value("${auth.server.client.id}")
     private String clientId;
@@ -46,7 +45,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         OAuth2AuthenticationManager authenticationManager = new OAuth2AuthenticationManager();
         authenticationManager.setTokenServices(resourceServerTokenServices());
-        authenticationManager.setResourceId(resourceId);
+        authenticationManager.setResourceId(RESOURCE_ID);
         return authenticationManager;
     }
 

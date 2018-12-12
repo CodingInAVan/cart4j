@@ -45,8 +45,7 @@ public class AccountServiceImplV1 implements AccountServiceV1 {
                 .accountName(account.getAccountName())
                 .accountUniqueId(account.getAccountUniqueId())
                 .description(account.getDescription())
-                .id(account.getId())
-                .status(AccountStatus.ACTIVATED)
+                .status(AccountStatus.valueOf(account.getStatus()))
                 .build();
         return AccountDtoV1.from(accountRepository.save(newAccount));
     }
@@ -92,7 +91,7 @@ public class AccountServiceImplV1 implements AccountServiceV1 {
         }
         public static Specification<Account> username(String username) {
             return (root, query, builder) -> {
-                Join<Account, AccountUser> accountUser = root.join("accountUser", JoinType.INNER);
+                Join<Account, AccountUser> accountUser = root.join("accountUsers", JoinType.INNER);
                 return builder.equal(accountUser.get("username"), username);
             };
         }

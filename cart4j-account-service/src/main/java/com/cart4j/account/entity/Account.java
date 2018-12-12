@@ -27,6 +27,6 @@ public class Account {
     @OneToMany(mappedBy = "account")
     List<AccountUser> accountUsers;
 
-    @Enumerated
+    @Enumerated(value=EnumType.STRING)
     private AccountStatus status;
 }
