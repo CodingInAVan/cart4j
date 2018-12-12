@@ -20,8 +20,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.io.IOException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -105,5 +104,40 @@ public class AccountControllerTest {
         assertThat(modified.getAccountUniqueId()).isEqualTo("account-service"); // Not allow to change
         assertThat(modified.getDescription()).isEqualTo("test-1");
         assertThat(modified.getStatus()).isEqualTo(AccountStatus.ACTIVATED.name());
+    }
+
+    @Test
+    @WithMockOAuth2Scope(scope = "ACCOUNT_API_WRITE")
+    public void test_addingUser() throws Exception {
+        AccountDtoV1 account = AccountDtoV1.builder()
+                .accountName("test-account")
+                .accountUniqueId("account-service")
+                .description("test")
+                .status(AccountStatus.ACTIVATED.name())
+                .build();
+        ObjectMapper mapper = new ObjectMapper();
+        String request = mapper.writeValueAsString(account);
+        MvcResult result =mockMvc.perform(
+                post("/api/accounts/v1")
+                        .content(request)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andReturn();
+        String content = result.getResponse().getContentAsString();
+        assertThat(content).isNotNull();
+        AccountDtoV1 added = mapper.readValue(content, AccountDtoV1.class);
+
+        mockMvc.perform(
+                put("/api/accounts/v1/" + added.getId() + "/user/test_user_1")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        mockMvc.perform(
+                get("/api/accounts/v1/user/test_user_1").contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }

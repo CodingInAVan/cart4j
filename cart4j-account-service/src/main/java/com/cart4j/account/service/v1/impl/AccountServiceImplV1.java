@@ -91,7 +91,7 @@ public class AccountServiceImplV1 implements AccountServiceV1 {
         }
         public static Specification<Account> username(String username) {
             return (root, query, builder) -> {
-                Join<Account, AccountUser> accountUser = root.join("accountUser", JoinType.INNER);
+                Join<Account, AccountUser> accountUser = root.join("accountUsers", JoinType.INNER);
                 return builder.equal(accountUser.get("username"), username);
             };
         }

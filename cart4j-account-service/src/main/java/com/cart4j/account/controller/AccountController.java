@@ -58,7 +58,7 @@ public class AccountController {
 
     @PutMapping("/{accountId}/user/{username}")
     @PreAuthorize("#oauth2.hasScope('ACCOUNT_API_WRITE')")
-    void addUserToAccounts(@PathVariable Long accountId, @RequestBody String username) throws AccountInactivatedException {
+    void addUserToAccounts(@PathVariable Long accountId, @PathVariable String username) throws AccountInactivatedException {
         accountServiceV1.addUserToAccount(accountId, Arrays.asList(username));
     }
 
