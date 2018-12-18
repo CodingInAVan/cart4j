@@ -13,6 +13,7 @@
         <module>cart4j-common</module>
         <module>cart4j-account-service</module>
         <module>cart4j-cart-service</module>
+        <module>cart4j-configuration-server</module>
     </modules>
 
     <packaging>pom</packaging>
