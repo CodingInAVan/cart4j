@@ -23,17 +23,11 @@ public class Product {
 
     private String barcode;
 
-    private Integer quantity;
-
     private String mainImage;
 
     private Long vendorId;
 
-    private Integer points;
-
     private Long taxClassId;
-
-    private Date availableAt;
 
     @OneToOne
     @JoinColumn(name="product_description_id")

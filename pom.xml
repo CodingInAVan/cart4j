@@ -12,6 +12,7 @@
         <module>cart4j-security-server</module>
         <module>cart4j-common</module>
         <module>cart4j-account-service</module>
+        <module>cart4j-cart-service</module>
     </modules>
 
     <packaging>pom</packaging>
