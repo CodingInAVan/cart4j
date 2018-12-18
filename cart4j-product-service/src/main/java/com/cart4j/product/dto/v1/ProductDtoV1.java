@@ -19,17 +19,11 @@ public class ProductDtoV1 {
 
     private String barcode;
 
-    private Integer quantity;
-
     private String mainImage;
 
     private Long vendorId;
 
-    private Integer points;
-
     private Long taxClassId;
-
-    private Long availableAt;
 
     private ProductDescriptionDtoV1 productDescription;
 
@@ -39,13 +33,10 @@ public class ProductDtoV1 {
 
     public static ProductDtoV1 from(Product product) {
         return ProductDtoV1.builder()
-                .availableAt(product.getAvailableAt().getTime())
                 .barcode(product.getBarcode())
                 .id(product.getId())
                 .mainImage(product.getMainImage())
                 .name(product.getName())
-                .points(product.getPoints())
-                .quantity(product.getQuantity())
                 .sku(product.getSku())
                 .taxClassId(product.getTaxClassId())
                 .vendorId(product.getVendorId())
