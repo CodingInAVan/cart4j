@@ -7,7 +7,7 @@ Cart4j is a microservices-based ecommerce platform.
 - Implemented with Spring OAuth2.
 
 ### Configuration Server
-- Centralized Configuration Server implemented with Spring Config. All services read from this server as environment variables when the serivce starts.  
+- Centralized Configuration Server implemented with Spring Config. All services read configuration information from this server as environment variables when the serivce starts.  
 
 ### Account Service
 - Managing accounts.
