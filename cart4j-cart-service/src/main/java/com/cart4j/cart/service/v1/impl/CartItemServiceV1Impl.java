@@ -9,7 +9,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class CartItemServiceImplV1 implements CartItemServiceV1 {
+public class CartItemServiceV1Impl implements CartItemServiceV1 {
     @Override
     public List<CartItemDtoV1> getCartItems() {
         return null;
