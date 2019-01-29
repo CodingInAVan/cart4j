@@ -4,6 +4,7 @@ import com.cart4j.cart.dto.v1.CartItemDtoV1;
 import com.cart4j.cart.entity.Cart;
 import com.cart4j.cart.entity.CartItem;
 import com.cart4j.cart.exception.InvalidCartException;
+import com.cart4j.cart.exception.NoCartItemException;
 import com.cart4j.cart.repository.CartItemRepository;
 import com.cart4j.cart.repository.CartRepository;
 import com.cart4j.cart.service.v1.CartItemServiceV1;
@@ -27,6 +28,15 @@ public class CartItemServiceV1Impl implements CartItemServiceV1 {
     @Override
     public List<CartItemDtoV1> getCartItems(String username, Long cartId) {
         return cartItemRepository.findAllByUsernameAndCartId(username, cartId).stream().map(CartItemDtoV1::from).collect(Collectors.toList());
+    }
+
+    @Override
+    public CartItemDtoV1 getCartItem(String username, Long cartItemId) throws NoCartItemException {
+        CartItem cartItem = cartItemRepository.getOneByUsernameAndCartItemId(username, cartItemId);
+        if(cartItem == null) {
+            throw new NoCartItemException("There is no cart item with cartItemId = " + cartItemId);
+        }
+        return CartItemDtoV1.from(cartItem);
     }
 
     @Override

@@ -26,5 +26,6 @@ public class Cart {
 
     private Date addedAt;
 
+    @OneToMany
     private List<CartItem> cartItems;
 }

@@ -10,6 +10,10 @@ import java.util.List;
 
 @Repository
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
-    @Query("SELECT ci FROM CartItem ci JOIN ci.cart c WHERE c.username = ?1 and c.id = ?2")
+    @Query("SELECT ci FROM CartItem ci INNER JOIN ci.cart c WHERE c.username = ?1 and c.id = ?2")
     List<CartItem> findAllByUsernameAndCartId(String username, Long cartId);
+
+    @Query("SELECT ci FROM CartItem ci INNER JOIN ci.cart c WHERE c.username = ?1 and ci.id = ?2")
+    CartItem getOneByUsernameAndCartItemId(String username, Long cartItemId);
+
 }
