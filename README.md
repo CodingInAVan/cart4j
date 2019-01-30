@@ -15,16 +15,8 @@ Cart4j is a microservices-based ecommerce platform.
 ### Cart Service
 - Managing Cart and Cart Items.
 
-### Messaging Server
-- Managing all events and trigger event to all services.
-
-### Layout Service
-
 ### Product Service
-
-### Vendor Service
-
-### Price Service
+- Managing Products
 
 ### Payment Service
 
@@ -32,8 +24,14 @@ Cart4j is a microservices-based ecommerce platform.
 
 ### Inventory Service
 
+### Vendor Service
+
+### Price Service
+
 ### Customer Service
 
+### Web Backend Service 
+API Gateway for web application 
 
 ## Front 
 
