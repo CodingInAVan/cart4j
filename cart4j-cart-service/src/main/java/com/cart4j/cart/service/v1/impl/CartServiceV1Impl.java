@@ -38,9 +38,9 @@ public class CartServiceV1Impl implements CartServiceV1 {
     }
 
     @Override
-    public CartDtoV1 getCart(String username) throws NoUserCartException {
+    public CartDtoV1 getCart(String username, String session) throws NoUserCartException {
 
-        List<Cart> cart = cartRepository.findAllByUsername(username, PageRequest.of(0, 1));
+        List<Cart> cart = cartRepository.findAllByUsername(username, session, PageRequest.of(0, 1));
         if(CollectionUtils.isEmpty(cart)) {
             throw new NoUserCartException("Cart does not exists.");
         }
