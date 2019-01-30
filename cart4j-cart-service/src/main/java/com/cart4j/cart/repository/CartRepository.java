@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
-    @Query("SELECT c FROM Cart c WHERE c.username = ?1 ORDER BY added_at DESC")
-    List<Cart> findAllByUsername(String username, Pageable pageable);
+    @Query("SELECT c FROM Cart c WHERE c.username = ?1 AND c.session = ?2 ORDER BY added_at DESC")
+    List<Cart> findAllByUsername(String username, String session, Pageable pageable);
 }

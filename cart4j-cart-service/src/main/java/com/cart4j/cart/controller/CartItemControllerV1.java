@@ -16,8 +16,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cart-item/v1")
 public class CartItemControllerV1 {
+    private final CartItemServiceV1 cartItemServiceV1;
+
     @Autowired
-    private CartItemServiceV1 cartItemServiceV1;
+    public CartItemControllerV1(CartItemServiceV1 cartItemServiceV1) {
+        this.cartItemServiceV1 = cartItemServiceV1;
+    }
 
     @GetMapping("/cart/{cartId}")
     List<CartItemDtoV1> getCartItems(Principal principal,  @PathVariable Long cartId) {

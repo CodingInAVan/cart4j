@@ -6,6 +6,6 @@ import com.cart4j.cart.exception.NoUserCartException;
 
 public interface CartServiceV1 {
     CartDtoV1 addCart(String username, CartDtoV1 cart);
-    CartDtoV1 getCart(String username) throws NoUserCartException;
+    CartDtoV1 getCart(String username, String session) throws NoUserCartException;
     void removeCart(Long cartId);
 }
