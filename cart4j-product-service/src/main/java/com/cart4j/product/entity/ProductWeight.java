@@ -1,6 +1,11 @@
 package com.cart4j.product.entity;
 
-import lombok.*;
+import com.cart4j.model.product.WeightUnit;
+import com.cart4j.model.product.dto.v1.ProductWeightDtoV1;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -21,4 +26,12 @@ public class ProductWeight {
 
     @Enumerated(EnumType.STRING)
     private WeightUnit unit;
+
+    public ProductWeightDtoV1 toDtoV1() {
+        return ProductWeightDtoV1.builder()
+                .id(id)
+                .unit(unit)
+                .weight(weight)
+                .build();
+    }
 }

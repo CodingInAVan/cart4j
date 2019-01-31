@@ -1,8 +1,8 @@
 package com.cart4j.web.backend.controller;
 
-import com.cart4j.common.dto.ErrorResponse;
-import com.cart4j.common.dto.PageDto;
-import com.cart4j.product.dto.v1.ProductDtoV1;
+import com.cart4j.model.common.ErrorResponse;
+import com.cart4j.model.common.PageDto;
+import com.cart4j.model.product.dto.v1.ProductDtoV1;
 import com.cart4j.web.backend.exception.InvalidResponseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

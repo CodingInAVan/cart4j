@@ -1,6 +1,5 @@
 package com.cart4j.cart.service.v1.impl;
 
-import com.cart4j.cart.dto.v1.CartItemDtoV1;
 import com.cart4j.cart.entity.Cart;
 import com.cart4j.cart.entity.CartItem;
 import com.cart4j.cart.exception.InvalidCartException;
@@ -8,6 +7,7 @@ import com.cart4j.cart.exception.NoCartItemException;
 import com.cart4j.cart.repository.CartItemRepository;
 import com.cart4j.cart.repository.CartRepository;
 import com.cart4j.cart.service.v1.CartItemServiceV1;
+import com.cart4j.model.cart.dto.v1.CartItemDtoV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +20,18 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class CartItemServiceV1Impl implements CartItemServiceV1 {
+    private final CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
+
     @Autowired
-    private CartItemRepository cartItemRepository;
-    @Autowired
-    private CartRepository cartRepository;
+    public CartItemServiceV1Impl(CartItemRepository cartItemRepository, CartRepository cartRepository) {
+        this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
+    }
 
     @Override
     public List<CartItemDtoV1> getCartItems(String username, Long cartId) {
-        return cartItemRepository.findAllByUsernameAndCartId(username, cartId).stream().map(CartItemDtoV1::from).collect(Collectors.toList());
+        return cartItemRepository.findAllByUsernameAndCartId(username, cartId).stream().map(CartItem::toDtoV1).collect(Collectors.toList());
     }
 
     @Override
@@ -36,7 +40,7 @@ public class CartItemServiceV1Impl implements CartItemServiceV1 {
         if(cartItem == null) {
             throw new NoCartItemException("There is no cart item with cartItemId = " + cartItemId);
         }
-        return CartItemDtoV1.from(cartItem);
+        return cartItem.toDtoV1();
     }
 
     @Override
@@ -57,7 +61,7 @@ public class CartItemServiceV1Impl implements CartItemServiceV1 {
                 .quantity(cartItem.getQuantity())
                 .build();
 
-        return CartItemDtoV1.from(cartItemRepository.save(newCartItem));
+        return cartItemRepository.save(newCartItem).toDtoV1();
     }
 
     @Override
@@ -69,7 +73,7 @@ public class CartItemServiceV1Impl implements CartItemServiceV1 {
         cartItem.setOption(cartItemDtoV1.getOption());
         cartItem.setQuantity(cartItemDtoV1.getQuantity());
         cartItem.setProductId(cartItemDtoV1.getProductId());
-        return CartItemDtoV1.from(cartItemRepository.save(cartItem));
+        return cartItemRepository.save(cartItem).toDtoV1();
     }
 
     @Override

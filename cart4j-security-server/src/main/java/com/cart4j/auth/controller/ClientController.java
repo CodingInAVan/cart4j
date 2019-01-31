@@ -1,11 +1,11 @@
 package com.cart4j.auth.controller;
 
 import com.cart4j.auth.dto.ClientDto;
-import com.cart4j.common.dto.ErrorResponse;
 import com.cart4j.auth.exception.ClientNotFoundException;
 import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.service.ClientService;
-import com.cart4j.common.dto.PageDto;
+import com.cart4j.model.common.ErrorResponse;
+import com.cart4j.model.common.PageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,12 @@
 package com.cart4j.product.entity;
 
-import lombok.*;
+import com.cart4j.model.product.dto.v1.ProductDtoV1;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Table(name="c4_product")
 @Entity
@@ -42,4 +45,19 @@ public class Product {
     private ProductWeight productWeight;
 
     private Boolean activated;
+
+    public ProductDtoV1 toDtoV1() {
+        return ProductDtoV1.builder()
+                .barcode(barcode)
+                .id(id)
+                .mainImage(mainImage)
+                .name(name)
+                .productDescription(productDescription.toDtoV1())
+                .productSize(productSize.toDtoV1())
+                .productWeight(productWeight.toDtoV1())
+                .sku(sku)
+                .taxClassId(taxClassId)
+                .vendorId(vendorId)
+                .build();
+    }
 }

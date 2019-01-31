@@ -10,7 +10,6 @@
     <modules>
         <module>cart4j-product-service</module>
         <module>cart4j-security-server</module>
-        <module>cart4j-common</module>
         <module>cart4j-account-service</module>
         <module>cart4j-cart-service</module>
         <module>cart4j-configuration-server</module>

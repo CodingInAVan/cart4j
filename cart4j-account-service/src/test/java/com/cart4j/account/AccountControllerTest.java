@@ -2,8 +2,8 @@ package com.cart4j.account;
 
 import com.cart4j.account.config.WithMockOAuth2Scope;
 import com.cart4j.account.controller.AccountController;
-import com.cart4j.account.dto.v1.AccountDtoV1;
-import com.cart4j.account.entity.AccountStatus;
+import com.cart4j.model.account.AccountStatus;
+import com.cart4j.model.account.dto.v1.AccountDtoV1;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.io.IOException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -27,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
+@TestPropertySource(locations="classpath:application-test.properties")
 public class AccountControllerTest {
     private MockMvc mockMvc;
 
@@ -45,7 +45,7 @@ public class AccountControllerTest {
                 .accountName("test-account")
                 .accountUniqueId("account-service")
                 .description("test")
-                .status(AccountStatus.ACTIVATED.name())
+                .status(AccountStatus.ACTIVATED)
                 .build();
         ObjectMapper mapper = new ObjectMapper();
         String request = mapper.writeValueAsString(account);
@@ -62,7 +62,7 @@ public class AccountControllerTest {
         assertThat(added.getAccountName()).isEqualTo("test-account");
         assertThat(added.getAccountUniqueId()).isEqualTo("account-service");
         assertThat(added.getDescription()).isEqualTo("test");
-        assertThat(added.getStatus()).isEqualTo(AccountStatus.ACTIVATED.name());
+        assertThat(added.getStatus()).isEqualTo(AccountStatus.ACTIVATED);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class AccountControllerTest {
                 .accountName("test-account")
                 .accountUniqueId("account-service")
                 .description("test")
-                .status(AccountStatus.ACTIVATED.name())
+                .status(AccountStatus.ACTIVATED)
                 .build();
         ObjectMapper mapper = new ObjectMapper();
         String request = mapper.writeValueAsString(account);
@@ -103,7 +103,7 @@ public class AccountControllerTest {
         assertThat(modified.getAccountName()).isEqualTo("test-account-1");
         assertThat(modified.getAccountUniqueId()).isEqualTo("account-service"); // Not allow to change
         assertThat(modified.getDescription()).isEqualTo("test-1");
-        assertThat(modified.getStatus()).isEqualTo(AccountStatus.ACTIVATED.name());
+        assertThat(modified.getStatus()).isEqualTo(AccountStatus.ACTIVATED);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class AccountControllerTest {
                 .accountName("test-account")
                 .accountUniqueId("account-service")
                 .description("test")
-                .status(AccountStatus.ACTIVATED.name())
+                .status(AccountStatus.ACTIVATED)
                 .build();
         ObjectMapper mapper = new ObjectMapper();
         String request = mapper.writeValueAsString(account);

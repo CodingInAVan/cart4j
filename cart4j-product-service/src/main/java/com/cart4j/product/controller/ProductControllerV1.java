@@ -1,7 +1,7 @@
 package com.cart4j.product.controller;
 
-import com.cart4j.common.dto.PageDto;
-import com.cart4j.product.dto.v1.ProductDtoV1;
+import com.cart4j.model.common.PageDto;
+import com.cart4j.model.product.dto.v1.ProductDtoV1;
 import com.cart4j.product.service.v1.ProductServiceV1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,10 @@
 package com.cart4j.product.entity;
 
-import lombok.*;
+import com.cart4j.model.product.dto.v1.ProductDescriptionDtoV1;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -23,4 +27,14 @@ public class ProductDescription {
     private String metaDescription;
 
     private String metaKeyword;
+
+    public ProductDescriptionDtoV1 toDtoV1() {
+        return ProductDescriptionDtoV1.builder()
+                .description(description)
+                .id(id)
+                .metaDescription(metaDescription)
+                .metaKeyword(metaKeyword)
+                .metaTitle(metaTitle)
+                .build();
+    }
 }

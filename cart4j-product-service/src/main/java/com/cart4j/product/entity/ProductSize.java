@@ -1,6 +1,11 @@
 package com.cart4j.product.entity;
 
-import lombok.*;
+import com.cart4j.model.product.ProductSizeUnit;
+import com.cart4j.model.product.dto.v1.ProductSizeDtoV1;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -25,4 +30,15 @@ public class ProductSize {
 
     @Enumerated(EnumType.STRING)
     private ProductSizeUnit unit;
+
+    public ProductSizeDtoV1 toDtoV1() {
+        return ProductSizeDtoV1
+                .builder()
+                .height(height)
+                .width(width)
+                .length(length)
+                .id(id)
+                .unit(unit)
+                .build();
+    }
 }

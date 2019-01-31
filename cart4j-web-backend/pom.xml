@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>com.cart4j</groupId>
-            <artifactId>cart4j-product-service</artifactId>
+            <artifactId>cart4j-model</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>

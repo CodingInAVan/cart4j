@@ -1,7 +1,7 @@
 package com.cart4j.account.service.v1;
 
-import com.cart4j.account.dto.v1.AccountDtoV1;
 import com.cart4j.account.exception.AccountInactivatedException;
+import com.cart4j.model.account.dto.v1.AccountDtoV1;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

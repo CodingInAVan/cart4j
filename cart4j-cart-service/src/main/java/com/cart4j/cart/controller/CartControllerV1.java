@@ -1,9 +1,9 @@
 package com.cart4j.cart.controller;
 
-import com.cart4j.cart.dto.v1.CartDtoV1;
 import com.cart4j.cart.exception.NoUserCartException;
 import com.cart4j.cart.service.v1.CartServiceV1;
-import com.cart4j.common.dto.ErrorResponse;
+import com.cart4j.model.cart.dto.v1.CartDtoV1;
+import com.cart4j.model.common.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

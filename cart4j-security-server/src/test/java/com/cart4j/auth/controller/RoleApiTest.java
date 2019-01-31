@@ -6,7 +6,6 @@ import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.dto.RoleDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
-import com.cart4j.common.dto.PageDto;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.Before;

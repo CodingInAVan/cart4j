@@ -1,7 +1,6 @@
 package com.cart4j.cart.service;
 
 import com.cart4j.cart.Cart4jCartApp;
-import com.cart4j.cart.dto.v1.CartItemDtoV1;
 import com.cart4j.cart.entity.Cart;
 import com.cart4j.cart.entity.CartItem;
 import com.cart4j.cart.exception.InvalidCartException;
@@ -10,6 +9,7 @@ import com.cart4j.cart.repository.CartItemRepository;
 import com.cart4j.cart.repository.CartRepository;
 import com.cart4j.cart.service.v1.CartItemServiceV1;
 import com.cart4j.cart.service.v1.impl.CartItemServiceV1Impl;
+import com.cart4j.model.cart.dto.v1.CartItemDtoV1;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,9 +31,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CartItemServiceTest {
     @TestConfiguration
     public static class Config {
+        @Autowired
+        private CartItemRepository cartItemRepository;
+        @Autowired
+        private CartRepository cartRepository;
+
         @Bean
         public CartItemServiceV1 cartItemServiceV1() {
-            return new CartItemServiceV1Impl();
+            return new CartItemServiceV1Impl(cartItemRepository, cartRepository);
         }
     }
 

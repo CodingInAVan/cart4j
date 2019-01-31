@@ -1,10 +1,11 @@
 package com.cart4j.auth.controller;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.dto.*;
+import com.cart4j.auth.dto.AuthToken;
+import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
-import com.cart4j.common.dto.PageDto;
+import com.cart4j.model.common.PageDto;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.Before;
