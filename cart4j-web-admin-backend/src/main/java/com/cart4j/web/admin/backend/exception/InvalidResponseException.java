@@ -1,4 +1,4 @@
-package com.cart4j.web.backend.exception;
+package com.cart4j.web.admin.backend.exception;
 
 public class InvalidResponseException extends Exception {
 

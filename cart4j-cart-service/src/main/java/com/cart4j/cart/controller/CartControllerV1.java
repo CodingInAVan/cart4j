@@ -14,7 +14,6 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/cart/v1")
 public class CartControllerV1 {
-
     @GetMapping("/{username}/{session}")
     CartDtoV1 getCart(@PathVariable String username, @PathVariable String session) throws NoUserCartException {
         return cartServiceV1.getCart(username, session);

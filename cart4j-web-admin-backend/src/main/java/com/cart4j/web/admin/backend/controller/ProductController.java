@@ -1,9 +1,9 @@
-package com.cart4j.web.backend.controller;
+package com.cart4j.web.admin.backend.controller;
 
 import com.cart4j.model.common.ErrorResponse;
 import com.cart4j.model.common.PageDto;
 import com.cart4j.model.product.dto.v1.ProductDtoV1;
-import com.cart4j.web.backend.exception.InvalidResponseException;
+import com.cart4j.web.admin.backend.exception.InvalidResponseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/backend/product")
+@RequestMapping("/admin/product")
 public class ProductController {
     @Value("${product.service.url}")
     private String productServiceUrl;

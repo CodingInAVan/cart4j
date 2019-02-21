@@ -13,7 +13,7 @@
         <module>cart4j-account-service</module>
         <module>cart4j-cart-service</module>
         <module>cart4j-configuration-server</module>
-        <module>cart4j-web-backend</module>
+        <module>cart4j-web-admin-backend</module>
         <module>cart4j-model</module>
     </modules>
 
