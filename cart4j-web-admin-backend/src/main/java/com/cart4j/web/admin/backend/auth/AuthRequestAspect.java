@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -27,7 +28,10 @@ public class AuthRequestAspect {
                 .getRequest();
         HttpSession session = request.getSession();
         String token = (String) session.getAttribute("token");
+        if(StringUtils.isEmpty(token)) {
+            // Request a new access token
 
+        }
 
     }
 }
