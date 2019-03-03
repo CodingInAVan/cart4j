@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="cart_item")
+@Table(name="c4_cart_item")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,14 +18,14 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="cart_id")
     private Cart cart;
 
     private Long productId;
 
     private Integer quantity;
 
-    private String option;
+    @Column
+    private String productOption;
 
     private Date addedAt;
 
@@ -33,8 +33,8 @@ public class CartItem {
         return CartItemDtoV1
                 .builder()
                 .addedAt(addedAt.getTime())
+                .productOption(productOption)
                 .id(id)
-                .option(option)
                 .productId(productId)
                 .quantity(quantity)
                 .build();

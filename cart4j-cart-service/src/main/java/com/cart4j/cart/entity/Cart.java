@@ -30,7 +30,7 @@ public class Cart {
 
     private Date addedAt;
 
-    @OneToMany
+    @OneToMany(mappedBy="cart")
     private List<CartItem> cartItems;
 
     public CartDtoV1 toDtoV1() {
