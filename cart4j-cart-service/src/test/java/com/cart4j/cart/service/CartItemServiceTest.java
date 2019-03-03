@@ -63,14 +63,14 @@ public class CartItemServiceTest {
         CartItem cartItem = CartItem.builder()
                 .cart(cart)
                 .addedAt(new Date())
-                .option("color 1")
+                .productOption("color 1")
                 .productId(1L)
                 .quantity(10)
                 .build();
         CartItem cartItem2 = CartItem.builder()
                 .cart(cart)
                 .addedAt(new Date())
-                .option("color 2")
+                .productOption("color 2")
                 .productId(2L)
                 .quantity(4)
                 .build();
@@ -87,7 +87,7 @@ public class CartItemServiceTest {
     public void add_delete_test() throws InvalidCartException {
         CartItemDtoV1 cartItem = CartItemDtoV1.builder()
                 .addedAt(new Date().getTime())
-                .option("color 3")
+                .productOption("color 3")
                 .productId(3L)
                 .quantity(1)
                 .build();
@@ -103,12 +103,12 @@ public class CartItemServiceTest {
     public void update_test() throws NoCartItemException, InvalidCartException {
         CartItemDtoV1 cartItem = cartItemServiceV1.getCartItem("test1", 1L);
         CartItemDtoV1 modifiedItem = CartItemDtoV1.builder()
-                .option("color A")
+                .productOption("color A")
                 .quantity(2)
                 .productId(2L)
                 .build();
         CartItemDtoV1 updatedItem = cartItemServiceV1.updateCartItem("test1", cartItem.getId(), modifiedItem);
-        assertThat(updatedItem.getOption()).isEqualTo("color A");
+        assertThat(updatedItem.getProductOption()).isEqualTo("color A");
         assertThat(updatedItem.getQuantity()).isEqualTo(2);
         assertThat(updatedItem.getProductId()).isEqualTo(2L);
     }

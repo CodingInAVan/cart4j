@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class CartItemDtoV1 {
     private Long id;
     private Integer quantity;
-    private String option;
+    private String productOption;
     private Long addedAt;
     private Long productId;
 }

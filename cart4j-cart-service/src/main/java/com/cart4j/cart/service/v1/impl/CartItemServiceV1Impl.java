@@ -56,7 +56,7 @@ public class CartItemServiceV1Impl implements CartItemServiceV1 {
                 .builder()
                 .cart(cart)
                 .addedAt(new Date())
-                .option(cartItem.getOption())
+                .productOption(cartItem.getProductOption())
                 .productId(cartItem.getProductId())
                 .quantity(cartItem.getQuantity())
                 .build();
@@ -70,7 +70,7 @@ public class CartItemServiceV1Impl implements CartItemServiceV1 {
         if(!cartItem.getCart().getUsername().equals(username)) {
             throw new InvalidCartException("The cart is not owned by requester");
         }
-        cartItem.setOption(cartItemDtoV1.getOption());
+        cartItem.setProductOption(cartItemDtoV1.getProductOption());
         cartItem.setQuantity(cartItemDtoV1.getQuantity());
         cartItem.setProductId(cartItemDtoV1.getProductId());
         return cartItemRepository.save(cartItem).toDtoV1();
