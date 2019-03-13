@@ -1,9 +1,9 @@
 package com.cart4j.auth.service.impl;
 
-import com.cart4j.auth.entity.AccessToken;
 import com.cart4j.auth.entity.Client;
+import com.cart4j.auth.entity.Resource;
+import com.cart4j.auth.entity.Scope;
 import com.cart4j.auth.provider.AuthClientDetails;
-import com.cart4j.auth.repository.AccessTokenRepository;
 import com.cart4j.auth.repository.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +22,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
+@Service
 @Transactional
 public class ClientDetailsServiceImpl implements ClientDetailsService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientDetailsServiceImpl.class);
+
+    @Autowired
+    public ClientDetailsServiceImpl(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     @Override
     public ClientDetails loadClientByClientId(String clientUniqueId) throws ClientRegistrationException {
@@ -36,20 +42,19 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
                                 new ArrayList<>() : client.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toSet()))
                 .authorizedGrantTypes(
                         StringUtils.isEmpty(client.getGrantTypes()) ?
-                                new HashSet<>() : Arrays.asList(client.getGrantTypes().split(",")).stream().collect(Collectors.toSet()))
+                                new HashSet<>() : new HashSet<>(Arrays.asList(client.getGrantTypes().split(","))))
                 .clientSecret(client.getClientSecret())
                 .registeredRedirectUri(
                         CollectionUtils.isEmpty(client.getRedirectUris()) ?
-                                new HashSet<>() : client.getResources().stream().map(r -> r.getResourceUniqueId()).collect(Collectors.toSet()))
+                                new HashSet<>() : client.getResources().stream().map(Resource::getResourceUniqueId).collect(Collectors.toSet()))
                 .resourceIds(
                         CollectionUtils.isEmpty(client.getResources()) ?
-                                new HashSet<>() : client.getResources().stream().map(r -> r.getResourceUniqueId()).collect(Collectors.toSet()))
+                                new HashSet<>() : client.getResources().stream().map(Resource::getResourceUniqueId).collect(Collectors.toSet()))
                 .scope(
                         CollectionUtils.isEmpty(client.getScopes()) ?
-                                new HashSet<>() : client.getScopes().stream().map(s -> s.getScope()).collect(Collectors.toSet()))
+                                new HashSet<>() : client.getScopes().stream().map(Scope::getScope).collect(Collectors.toSet()))
                 .build();
     }
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 }

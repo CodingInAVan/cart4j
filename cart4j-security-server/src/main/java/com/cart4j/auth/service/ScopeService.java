@@ -1,6 +1,6 @@
 package com.cart4j.auth.service;
 
-import com.cart4j.auth.dto.ScopeDto;
+import com.cart4j.model.security.dto.v1.ScopeDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

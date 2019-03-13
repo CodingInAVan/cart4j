@@ -1,15 +1,11 @@
 package com.cart4j.auth.service.impl;
 
-import com.cart4j.auth.dto.ResourceDto;
-import com.cart4j.auth.entity.Client;
-import com.cart4j.auth.entity.RedirectUri;
 import com.cart4j.auth.entity.Resource;
 import com.cart4j.auth.exception.ResourceAlreadyExistingException;
-import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.repository.ResourceRepository;
 import com.cart4j.auth.service.ResourceService;
-import org.mockito.internal.util.StringUtil;
+import com.cart4j.model.security.dto.v1.ResourceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,13 +18,19 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class ResourceServiceImpl implements ResourceService {
+    @Autowired
+    public ResourceServiceImpl(ClientRepository clientRepository, ResourceRepository resourceRepository) {
+        this.clientRepository = clientRepository;
+        this.resourceRepository = resourceRepository;
+    }
+
     @Override
     public Page<ResourceDto> getResources(Pageable pageable, String searchKey) {
         Specification<Resource> spec = null;
         if(!StringUtils.isEmpty(searchKey)) {
             spec = ResourceSpec.search(searchKey);
         }
-        return resourceRepository.findAll(spec, pageable).map(ResourceDto::from);
+        return resourceRepository.findAll(spec, pageable).map(Resource::toDto);
     }
 
     @Override
@@ -36,7 +38,7 @@ public class ResourceServiceImpl implements ResourceService {
         if(!resourceRepository.existsById(id)) {
             return null;
         }
-        return ResourceDto.from(resourceRepository.getOne(id));
+        return resourceRepository.getOne(id).toDto();
     }
 
     @Override
@@ -48,7 +50,7 @@ public class ResourceServiceImpl implements ResourceService {
                 .resourceUniqueId(resource.getResourceUniqueId())
                 .description(resource.getDescription())
                 .build();
-        return ResourceDto.from(resourceRepository.save(newResource));
+        return resourceRepository.save(newResource).toDto();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ResourceServiceImpl implements ResourceService {
         Resource updatingResource = resourceRepository.getOne(resourceId);
         updatingResource.setDescription(resource.getDescription());
         updatingResource.setResourceUniqueId(resource.getResourceUniqueId());
-        return ResourceDto.from(resourceRepository.save(updatingResource));
+        return resourceRepository.save(updatingResource).toDto();
     }
 
     @Override
@@ -67,8 +69,8 @@ public class ResourceServiceImpl implements ResourceService {
         resourceRepository.deleteById(resourceId);
     }
 
-    static class ResourceSpec {
-        public static Specification<Resource> search(String searchKey) {
+    private static class ResourceSpec {
+        private static Specification<Resource> search(String searchKey) {
             return (root, query, builder) -> {
                 String likeSearch = "%" + searchKey + "%";
                 return builder.or(builder.like(root.get("resource"), likeSearch), builder.like(root.get("description"), likeSearch));
@@ -76,9 +78,7 @@ public class ResourceServiceImpl implements ResourceService {
         }
     }
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    private ResourceRepository resourceRepository;
+    private final ResourceRepository resourceRepository;
 }

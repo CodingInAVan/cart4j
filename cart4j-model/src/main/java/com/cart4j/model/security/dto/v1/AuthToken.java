@@ -1,4 +1,4 @@
-package com.cart4j.auth.dto;
+package com.cart4j.model.security.dto.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

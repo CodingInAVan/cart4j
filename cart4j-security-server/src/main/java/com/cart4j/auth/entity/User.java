@@ -1,5 +1,6 @@
 package com.cart4j.auth.entity;
 
+import com.cart4j.model.security.dto.v1.UserDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,4 +35,14 @@ public class User implements Serializable {
     @ManyToMany
     @JoinTable(name = "c4_user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
+    public UserDto toDto() {
+        return UserDto.builder()
+                .createdAt(createdAt.getTime())
+                .email(email)
+                .id(id)
+                .password(password)
+                .username(username)
+                .build();
+    }
 }

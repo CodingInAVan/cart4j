@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="c4_refresh_token")
@@ -14,8 +15,9 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RefreshToken implements OAuth2RefreshToken {
+public class RefreshToken implements OAuth2RefreshToken, Serializable {
 
+    private static final long serialVersionUID = 4044788695273077663L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

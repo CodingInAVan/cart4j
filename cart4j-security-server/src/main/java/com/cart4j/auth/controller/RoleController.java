@@ -1,10 +1,10 @@
 package com.cart4j.auth.controller;
 
-import com.cart4j.auth.dto.RoleDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.service.RoleService;
 import com.cart4j.model.common.ErrorResponse;
 import com.cart4j.model.common.PageDto;
+import com.cart4j.model.security.dto.v1.RoleDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

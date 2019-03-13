@@ -1,6 +1,5 @@
 package com.cart4j.auth.service.impl;
 
-import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.entity.Client;
 import com.cart4j.auth.entity.Scope;
 import com.cart4j.auth.exception.ClientNotFoundException;
@@ -8,6 +7,7 @@ import com.cart4j.auth.exception.ScopeNotFoundException;
 import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.repository.ScopeRepository;
 import com.cart4j.auth.service.ClientService;
+import com.cart4j.model.security.dto.v1.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +28,20 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class ClientServiceImpl implements ClientService {
+    @Autowired
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, ScopeRepository scopeRepository) {
+        this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.scopeRepository = scopeRepository;
+    }
+
     @Override
     public Page<ClientDto> getClients(Pageable pageable, String searchKey) {
         Specification<Client> spec = null;
         if(!StringUtils.isEmpty(searchKey)) {
             spec = ClientSpec.searchKey(searchKey);
         }
-        return clientRepository.findAll(spec, pageable).map(ClientDto::from);
+        return clientRepository.findAll(spec, pageable).map(Client::toDto);
     }
 
     @Override
@@ -55,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
         if(!CollectionUtils.isEmpty(addingIds)) {
             client.setScopes(addingIds.stream().map(scopeRepository::getOne).collect(Collectors.toList()));
         }
-        return ClientDto.from(clientRepository.save(client));
+        return clientRepository.save(client).toDto();
     }
 
     @Override
@@ -76,7 +83,7 @@ public class ClientServiceImpl implements ClientService {
             client.getScopes().add(scope);
         }
 
-        return ClientDto.from(clientRepository.save(client));
+        return clientRepository.save(client).toDto();
     }
 
     @Override
@@ -84,12 +91,12 @@ public class ClientServiceImpl implements ClientService {
         if(!clientRepository.existsById(id)) {
             return null;
         }
-        return ClientDto.from(clientRepository.getOne(id));
+        return clientRepository.getOne(id).toDto();
     }
 
     @Override
     public ClientDto getClientByClientUniqueId(String clientUniqueId) {
-        return ClientDto.from(clientRepository.findByClientUniqueId(clientUniqueId));
+        return clientRepository.findByClientUniqueId(clientUniqueId).toDto();
     }
 
     @Override
@@ -103,7 +110,7 @@ public class ClientServiceImpl implements ClientService {
                 .grantTypes(client.getGrantTypes())
                 .build();
 
-        return ClientDto.from(clientRepository.save(newClient));
+        return clientRepository.save(newClient).toDto();
     }
 
     @Override
@@ -114,7 +121,7 @@ public class ClientServiceImpl implements ClientService {
         }
         modifyingClient.setGrantTypes(client.getGrantTypes());
 
-        return ClientDto.from(clientRepository.save(modifyingClient));
+        return clientRepository.save(modifyingClient).toDto();
     }
 
     @Override
@@ -122,18 +129,15 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.deleteById(id);
     }
 
-    static class ClientSpec {
-        public static Specification<Client> searchKey(String searchKey) {
+    private static class ClientSpec {
+        private static Specification<Client> searchKey(String searchKey) {
             return (root, query, builder) -> builder.like(root.get("client_unique_id"), "%" + searchKey + "%");
         }
     }
 
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ScopeRepository scopeRepository;
+    private final ScopeRepository scopeRepository;
 }
