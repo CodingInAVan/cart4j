@@ -1,10 +1,10 @@
 package com.cart4j.cart.controller;
 
 
-import com.cart4j.cart.dto.v1.CartItemDtoV1;
 import com.cart4j.cart.exception.InvalidCartException;
 import com.cart4j.cart.service.v1.CartItemServiceV1;
-import com.cart4j.common.dto.ErrorResponse;
+import com.cart4j.model.cart.dto.v1.CartItemDtoV1;
+import com.cart4j.model.common.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class CartItemControllerV1 {
     }
 
     @GetMapping("/cart/{cartId}")
-    List<CartItemDtoV1> getCartItems(Principal principal,  @PathVariable Long cartId) {
+    List<CartItemDtoV1> getCartItems(Principal principal, @PathVariable Long cartId) {
         return cartItemServiceV1.getCartItems(principal.getName(), cartId);
     }
 

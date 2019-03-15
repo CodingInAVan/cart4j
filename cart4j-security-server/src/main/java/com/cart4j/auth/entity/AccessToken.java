@@ -42,5 +42,4 @@ public class AccessToken implements Serializable {
     @OneToOne
     @JoinColumn(name="refresh_token_id")
     private RefreshToken refreshToken;
-
 }

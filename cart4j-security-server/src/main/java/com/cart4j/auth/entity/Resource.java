@@ -1,5 +1,6 @@
 package com.cart4j.auth.entity;
 
+import com.cart4j.model.security.dto.v1.ResourceDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,4 +25,12 @@ public class Resource {
 
     @ManyToMany(mappedBy = "resources")
     private List<Client> clients;
+
+    public ResourceDto toDto() {
+        return ResourceDto.builder()
+                .description(description)
+                .id(id)
+                .resourceUniqueId(resourceUniqueId)
+                .build();
+    }
 }

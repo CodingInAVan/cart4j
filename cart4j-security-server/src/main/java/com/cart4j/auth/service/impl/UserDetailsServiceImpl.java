@@ -15,11 +15,16 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    @Autowired
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.getByUsernameOrEmail(s);
         return UserPrincipal.from(user);
     }
 
-    @Autowired private UserRepository userRepository;
+    private final UserRepository userRepository;
 }

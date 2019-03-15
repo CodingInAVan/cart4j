@@ -1,12 +1,12 @@
 package com.cart4j.auth.service.impl;
 
-import com.cart4j.auth.dto.UserDto;
 import com.cart4j.auth.entity.Role;
 import com.cart4j.auth.entity.User;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
 import com.cart4j.auth.repository.RoleRepository;
 import com.cart4j.auth.repository.UserRepository;
 import com.cart4j.auth.service.UserService;
+import com.cart4j.model.security.dto.v1.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,13 +26,20 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
+
     @Override
     public Page<UserDto> getUsers(Pageable pageable, String searchKey) {
         Specification<User> spec = UserSpec.isActivate();
         if(!StringUtils.isEmpty(searchKey)) {
             spec = spec.and(UserSpec.search(searchKey));
         }
-        return userRepository.findAll(spec, pageable).map(UserDto::from);
+        return userRepository.findAll(spec, pageable).map(User::toDto);
     }
 
     @Override
@@ -47,7 +54,7 @@ public class UserServiceImpl implements UserService {
                 .createdAt(new Date())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .build();
-        return UserDto.from(userRepository.save(newUser));
+        return userRepository.save(newUser).toDto();
     }
 
     @Override
@@ -68,7 +75,7 @@ public class UserServiceImpl implements UserService {
         if(!CollectionUtils.isEmpty(addingIds)) {
             user.setRoles(addingIds.stream().map(roleRepository::getOne).collect(Collectors.toList()));
         }
-        return UserDto.from(userRepository.save(user));
+        return userRepository.save(user).toDto();
     }
 
     @Override
@@ -80,7 +87,7 @@ public class UserServiceImpl implements UserService {
         updatingUser.setEmail(user.getEmail());
         updatingUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return UserDto.from(userRepository.save(updatingUser));
+        return userRepository.save(updatingUser).toDto();
     }
 
     @Override
@@ -101,12 +108,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 }

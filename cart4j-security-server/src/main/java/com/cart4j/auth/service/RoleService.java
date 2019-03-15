@@ -1,7 +1,7 @@
 package com.cart4j.auth.service;
 
-import com.cart4j.auth.dto.RoleDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
+import com.cart4j.model.security.dto.v1.RoleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

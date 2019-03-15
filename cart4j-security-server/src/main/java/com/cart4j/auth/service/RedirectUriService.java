@@ -1,7 +1,6 @@
 package com.cart4j.auth.service;
 
-import com.cart4j.auth.dto.RedirectUriDto;
-import com.cart4j.auth.entity.RedirectUri;
+import com.cart4j.model.security.dto.v1.RedirectUriDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

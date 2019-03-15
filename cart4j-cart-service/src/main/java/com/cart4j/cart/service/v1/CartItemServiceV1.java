@@ -1,8 +1,8 @@
 package com.cart4j.cart.service.v1;
 
-import com.cart4j.cart.dto.v1.CartItemDtoV1;
 import com.cart4j.cart.exception.InvalidCartException;
 import com.cart4j.cart.exception.NoCartItemException;
+import com.cart4j.model.cart.dto.v1.CartItemDtoV1;
 
 import java.util.List;
 

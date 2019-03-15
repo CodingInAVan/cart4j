@@ -1,5 +1,6 @@
 package com.cart4j.auth.entity;
 
+import com.cart4j.model.security.dto.v1.RoleDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,4 +23,12 @@ public class Role implements Serializable {
     private Long id;
     private String role;
     private String description;
+
+    public RoleDto toDto() {
+        return RoleDto.builder()
+                .description(description)
+                .id(id)
+                .role(role)
+                .build();
+    }
 }

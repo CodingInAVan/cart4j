@@ -1,8 +1,8 @@
 package com.cart4j.auth.service;
 
-import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.exception.ClientNotFoundException;
 import com.cart4j.auth.exception.ScopeNotFoundException;
+import com.cart4j.model.security.dto.v1.ClientDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;

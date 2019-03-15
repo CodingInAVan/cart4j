@@ -1,8 +1,7 @@
 package com.cart4j.cart.service.v1;
 
-import com.cart4j.cart.dto.v1.CartDtoV1;
-import com.cart4j.cart.dto.v1.CartItemDtoV1;
 import com.cart4j.cart.exception.NoUserCartException;
+import com.cart4j.model.cart.dto.v1.CartDtoV1;
 
 public interface CartServiceV1 {
     CartDtoV1 addCart(String username, CartDtoV1 cart);

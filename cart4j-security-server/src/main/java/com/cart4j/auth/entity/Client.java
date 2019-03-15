@@ -1,6 +1,6 @@
 package com.cart4j.auth.entity;
 
-import com.cart4j.auth.entity.*;
+import com.cart4j.model.security.dto.v1.ClientDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,6 +45,14 @@ public class Client implements Serializable {
             referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
-
     private String grantTypes;
+
+    public ClientDto toDto() {
+     return ClientDto.builder()
+               .clientSecret(clientSecret)
+               .clientUniqueId(clientUniqueId)
+               .grantTypes(grantTypes)
+               .id(id)
+               .build();
+    }
 }

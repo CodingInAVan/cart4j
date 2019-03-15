@@ -1,9 +1,9 @@
 package com.cart4j.cart.controller;
 
-import com.cart4j.cart.dto.v1.CartDtoV1;
 import com.cart4j.cart.exception.NoUserCartException;
 import com.cart4j.cart.service.v1.CartServiceV1;
-import com.cart4j.common.dto.ErrorResponse;
+import com.cart4j.model.cart.dto.v1.CartDtoV1;
+import com.cart4j.model.common.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/cart/v1")
 public class CartControllerV1 {
-
     @GetMapping("/{username}/{session}")
     CartDtoV1 getCart(@PathVariable String username, @PathVariable String session) throws NoUserCartException {
         return cartServiceV1.getCart(username, session);

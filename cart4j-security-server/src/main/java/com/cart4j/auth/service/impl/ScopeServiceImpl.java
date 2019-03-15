@@ -1,10 +1,9 @@
 package com.cart4j.auth.service.impl;
 
-import com.cart4j.auth.dto.RoleDto;
-import com.cart4j.auth.dto.ScopeDto;
 import com.cart4j.auth.entity.Scope;
 import com.cart4j.auth.repository.ScopeRepository;
 import com.cart4j.auth.service.ScopeService;
+import com.cart4j.model.security.dto.v1.ScopeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,16 +23,17 @@ public class ScopeServiceImpl implements ScopeService {
         if(!StringUtils.isEmpty(searchKey)) {
             spec = ScopeSpec.search(searchKey);
         }
-        return scopeRepository.findAll(spec, pageable).map(ScopeDto::from);
+        return scopeRepository.findAll(spec, pageable).map(Scope::toDto);
     }
 
     @Override
     public ScopeDto addScope(ScopeDto scope) {
+
         Scope newScope = Scope.builder()
                 .scope(scope.getScope())
                 .description(scope.getDescription())
                 .build();
-        return ScopeDto.from(scopeRepository.save(newScope));
+        return scopeRepository.save(newScope).toDto();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class ScopeServiceImpl implements ScopeService {
         Scope updatingScope = scopeRepository.getOne(id);
         updatingScope.setDescription(scope.getDescription());
         updatingScope.setScope(scope.getScope());
-        return ScopeDto.from(scopeRepository.save(updatingScope));
+        return scopeRepository.save(updatingScope).toDto();
     }
 
     @Override

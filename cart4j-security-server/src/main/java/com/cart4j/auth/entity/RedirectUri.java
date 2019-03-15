@@ -1,5 +1,6 @@
 package com.cart4j.auth.entity;
 
+import com.cart4j.model.security.dto.v1.RedirectUriDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,4 +22,11 @@ public class RedirectUri {
     @ManyToOne
     @JoinColumn(name="client_id")
     private Client client;
+
+    public RedirectUriDto toDto() {
+        return RedirectUriDto.builder()
+                .id(id)
+                .redirectUri(redirectUri)
+                .build();
+    }
 }

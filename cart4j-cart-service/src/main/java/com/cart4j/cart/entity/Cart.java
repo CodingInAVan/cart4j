@@ -1,15 +1,19 @@
 package com.cart4j.cart.entity;
 
-import lombok.*;
+import com.cart4j.model.cart.dto.v1.CartDtoV1;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="c4_cart")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,6 +30,17 @@ public class Cart {
 
     private Date addedAt;
 
-    @OneToMany
+    @OneToMany(mappedBy="cart")
     private List<CartItem> cartItems;
+
+    public CartDtoV1 toDtoV1() {
+        return CartDtoV1
+                .builder()
+                .accountId(accountId)
+                .addedAt(addedAt)
+                .cartItems(cartItems.stream().map(CartItem::toDtoV1).collect(Collectors.toList()))
+                .session(session)
+                .username(username)
+                .build();
+    }
 }

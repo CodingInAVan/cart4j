@@ -1,5 +1,6 @@
 package com.cart4j.auth.entity;
 
+import com.cart4j.model.security.dto.v1.ScopeDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,4 +29,12 @@ public class Scope implements Serializable {
 
     @ManyToMany(mappedBy="scopes")
     private List<Client> clients;
+
+    public ScopeDto toDto() {
+     return ScopeDto.builder()
+             .description(description)
+             .scope(scope)
+             .id(id)
+             .build();
+    }
 }
