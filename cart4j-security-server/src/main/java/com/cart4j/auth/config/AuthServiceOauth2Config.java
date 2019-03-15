@@ -1,6 +1,7 @@
 package com.cart4j.auth.config;
 
 import com.cart4j.auth.provider.AuthTokenStore;
+import com.cart4j.auth.repository.ClientRepository;
 import com.cart4j.auth.service.impl.ClientDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,13 +27,21 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthServiceOauth2Config extends AuthorizationServerConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceOauth2Config.class);
-    @Bean
-    public ClientDetailsService clientDetailsServiceImpl() {
-        return new ClientDetailsServiceImpl();
-    }
 
     @Autowired
-    private AuthenticationManager authenticationManagerBean;
+    public AuthServiceOauth2Config(AuthenticationManager authenticationManagerBean, ClientRepository clientRepository) {
+        this.authenticationManagerBean = authenticationManagerBean;
+        this.clientRepository = clientRepository;
+    }
+
+    private final ClientRepository clientRepository;
+
+    @Bean
+    public ClientDetailsService clientDetailsServiceImpl() {
+        return new ClientDetailsServiceImpl(clientRepository);
+    }
+
+    private final AuthenticationManager authenticationManagerBean;
 
     @Bean
     public TokenStore authTokenStore() {
