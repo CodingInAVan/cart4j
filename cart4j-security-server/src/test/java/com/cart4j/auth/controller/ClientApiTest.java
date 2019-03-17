@@ -1,11 +1,11 @@
 package com.cart4j.auth.controller;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.dto.AuthToken;
-import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
 import com.cart4j.model.common.PageDto;
+import com.cart4j.model.security.dto.v1.AuthToken;
+import com.cart4j.model.security.dto.v1.ClientDto;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.Before;
@@ -59,7 +59,7 @@ public class ClientApiTest {
     }
 
     @Test
-    public void test_crunFunctions() throws IOException {
+    public void test_crudFunctions() throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token.getAccessToken());
         ClientDto clientDto = ClientDto.builder()

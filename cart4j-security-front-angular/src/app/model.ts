@@ -9,3 +9,7 @@ export interface TokenReponse {
   readonly expiresIn: Date;
   readonly scope: string;
 }
+export interface LoginStatus {
+  readonly code: string,
+  readonly message: string
+}

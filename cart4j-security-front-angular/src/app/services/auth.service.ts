@@ -6,7 +6,7 @@ import {catchError, map} from "rxjs/operators";
 import {throwError} from "rxjs";
 
 
-const LOGIN_URL = environment.apiEndPoint + "/api/auth/login"
+const LOGIN_URL = environment.apiEndPoint + "/api/auth/login";
 
 @Injectable({
   providedIn: 'root'

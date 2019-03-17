@@ -1,10 +1,10 @@
 package com.cart4j.auth.controller;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.dto.AuthToken;
-import com.cart4j.auth.dto.ResourceDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
+import com.cart4j.model.security.dto.v1.AuthToken;
+import com.cart4j.model.security.dto.v1.ResourceDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

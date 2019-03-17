@@ -1,10 +1,5 @@
 package com.cart4j.auth;
 
-import com.cart4j.auth.dto.ClientDto;
-import com.cart4j.auth.dto.RoleDto;
-import com.cart4j.auth.dto.ScopeDto;
-import com.cart4j.auth.dto.UserDto;
-import com.cart4j.auth.repository.UserRepository;
 import com.cart4j.auth.service.ClientService;
 import com.cart4j.auth.service.RoleService;
 import com.cart4j.auth.service.ScopeService;
@@ -13,19 +8,12 @@ import com.cart4j.model.security.dto.v1.ClientDto;
 import com.cart4j.model.security.dto.v1.RoleDto;
 import com.cart4j.model.security.dto.v1.ScopeDto;
 import com.cart4j.model.security.dto.v1.UserDto;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Scanner;
 
 @Component

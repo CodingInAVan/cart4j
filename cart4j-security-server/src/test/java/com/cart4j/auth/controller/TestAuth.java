@@ -1,19 +1,16 @@
 package com.cart4j.auth.controller;
 
-import com.cart4j.auth.dto.*;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.exception.UserAlreadyExistingException;
 import com.cart4j.auth.service.ClientService;
 import com.cart4j.auth.service.RoleService;
 import com.cart4j.auth.service.ScopeService;
 import com.cart4j.auth.service.UserService;
+import com.cart4j.model.security.dto.v1.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.test.RestTemplateHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
