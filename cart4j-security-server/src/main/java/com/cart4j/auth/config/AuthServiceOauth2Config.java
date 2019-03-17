@@ -41,7 +41,6 @@ public class AuthServiceOauth2Config extends AuthorizationServerConfigurerAdapte
         return new AuthTokenStore();
     }
 
-
     @Bean
     public UserApprovalHandler userApprovalHandler() {
         TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();

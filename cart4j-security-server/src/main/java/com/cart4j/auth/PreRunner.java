@@ -14,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 @Component
@@ -21,18 +22,22 @@ public class PreRunner implements CommandLineRunner {
     @Value("${install}")
     private Boolean install;
 
+    private final UserService userService;
+    private final ClientService clientService;
+    private final ScopeService scopeService;
+    private final RoleService roleService;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private ClientService clientService;
-    @Autowired
-    private ScopeService scopeService;
-    @Autowired
-    private RoleService roleService;
+    public PreRunner(UserService userService, ClientService clientService, ScopeService scopeService, RoleService roleService) {
+        this.userService = userService;
+        this.clientService = clientService;
+        this.scopeService = scopeService;
+        this.roleService = roleService;
+    }
 
     @Override
     public void run(String... args) throws Exception {
-        /**
+        /*
          * When you initially run this application on server, you will need to create tables
          * and add an admin user with admin roles.
          *
@@ -91,7 +96,7 @@ public class PreRunner implements CommandLineRunner {
                     .build();
 
             scope = scopeService.addScope(scope);
-            clientService.setScopes(Arrays.asList(scope.getId()), client.getId());
+            clientService.setScopes(Collections.singletonList(scope.getId()), client.getId());
 
             System.out.println("The admin user and the client have been created...");
         }
