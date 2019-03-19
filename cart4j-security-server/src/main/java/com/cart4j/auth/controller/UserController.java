@@ -19,6 +19,11 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/auth/users")
 public class UserController {
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping
     PageDto<UserDto> getUsers(Pageable pageable, @RequestParam(name="searchKey", required = false) String searchKey) {
         Page<UserDto> users = userService.getUsers(pageable, searchKey);
@@ -53,6 +58,5 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 }
