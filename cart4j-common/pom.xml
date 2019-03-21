@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cart4j-model</artifactId>
+    <artifactId>cart4j-common</artifactId>
 
     <properties>
         <java.version>1.8</java.version>

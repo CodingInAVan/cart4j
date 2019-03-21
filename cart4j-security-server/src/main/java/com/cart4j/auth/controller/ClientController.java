@@ -29,8 +29,9 @@ public class ClientController {
     }
 
     @GetMapping
-    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') or hasAuthority('USER_AUTH_ADMIN')")
-    PageDto<ClientDto> getClients(Pageable pageable, String searchKey) {
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
+    PageDto<ClientDto> getClients(Pageable pageable,
+                                  @RequestParam (value = "searchKey", required = false) String searchKey) {
         Page<ClientDto> clientsPage = clientService.getClients(pageable, searchKey);
         return PageDto.<ClientDto>builder().limit(pageable.getPageSize())
             .list(clientsPage.getContent())

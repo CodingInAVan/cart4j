@@ -131,7 +131,7 @@ public class ClientServiceImpl implements ClientService {
 
     private static class ClientSpec {
         private static Specification<Client> searchKey(String searchKey) {
-            return (root, query, builder) -> builder.like(root.get("client_unique_id"), "%" + searchKey + "%");
+            return (root, query, builder) -> builder.like(root.get("clientUniqueId"), "%" + searchKey + "%");
         }
     }
 

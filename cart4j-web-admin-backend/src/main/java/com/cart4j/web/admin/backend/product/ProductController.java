@@ -1,4 +1,4 @@
-package com.cart4j.web.admin.backend.controller;
+package com.cart4j.web.admin.backend.product;
 
 import com.cart4j.model.common.ErrorResponse;
 import com.cart4j.model.common.PageDto;

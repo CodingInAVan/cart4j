@@ -67,7 +67,7 @@
         </dependency>
         <dependency>
             <groupId>com.cart4j</groupId>
-            <artifactId>cart4j-model</artifactId>
+            <artifactId>cart4j-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

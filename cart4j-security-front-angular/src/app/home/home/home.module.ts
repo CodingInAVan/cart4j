@@ -3,14 +3,18 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import {HomeRoutingModule} from "./home-routing.module";
 import {AuthGuard} from "../../auth/guard/auth.guard";
-import {ResourcesModule} from "../../resources/resources/resources.module";
+import {LeftMenuModule} from "../left-menu/left-menu.module";
+import {ClientModule} from "../client/client.module";
+import {ResourceModule} from "../resource/resource.module";
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
-    ResourcesModule
+    LeftMenuModule,
+    ClientModule,
+    ResourceModule
   ],
   providers: [AuthGuard]
 })

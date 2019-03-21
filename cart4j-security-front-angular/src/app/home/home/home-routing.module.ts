@@ -2,7 +2,9 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from './home.component';
 import {AuthGuard} from '../../auth/guard/auth.guard';
-import {ResourcesComponent} from "../../resources/resources/resources.component";
+import {LeftMenuModule} from "../left-menu/left-menu.module";
+import {ResourceComponent} from "../resource/resource.component";
+import {ClientComponent} from "../client/client.component";
 
 const homeRoute: Routes = [{
   path: '',
@@ -10,8 +12,13 @@ const homeRoute: Routes = [{
   canActivate: [AuthGuard],
   children: [
     {
-      path: 'resources',
-      component: ResourcesComponent,
+      path: 'resource',
+      component: ResourceComponent,
+      canActivate: [AuthGuard]
+    },
+    {
+      path: 'client',
+      component: ClientComponent,
       canActivate: [AuthGuard]
     }
   ]
@@ -20,6 +27,6 @@ const homeRoute: Routes = [{
 
 @NgModule({
   imports: [RouterModule.forRoot(homeRoute)],
-  exports: [RouterModule]
+  exports: [RouterModule, LeftMenuModule]
 })
 export class HomeRoutingModule { }

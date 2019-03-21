@@ -1,4 +1,4 @@
-package com.cart4j.web.admin.backend.user.login;
+package com.cart4j.web.admin.backend.auth.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

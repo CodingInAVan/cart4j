@@ -1,7 +1,7 @@
-package com.cart4j.web.admin.backend.controller;
+package com.cart4j.web.admin.backend.auth.controller;
 
 import com.cart4j.model.security.dto.v1.AuthToken;
-import com.cart4j.web.admin.backend.user.login.LoginRequest;
+import com.cart4j.web.admin.backend.auth.login.LoginRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +28,7 @@ public class LoginController {
 
     @PostMapping
     public AuthToken login(@RequestBody LoginRequest loginRequest) {
+        LOGGER.debug("Trying to connect to {} with {}", authServiceUrl, loginRequest.getUsername());
         return WebClient.create().post().uri(builder ->
             builder
                     .scheme("http")
@@ -37,6 +38,10 @@ public class LoginController {
                     .queryParam("password", loginRequest.getPassword())
                     .queryParam("grant_type", "password")
                     .build()
-        ).contentType(MediaType.APPLICATION_JSON_UTF8).header("Authorization", "Basic " + Base64Utils.encodeToString((clientId + ":" + clientSecret).getBytes(UTF_8))).retrieve().bodyToMono(AuthToken.class).block();
+        ).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Basic " + Base64Utils.encodeToString((clientId + ":" + clientSecret).getBytes(UTF_8)))
+                .retrieve().bodyToMono(AuthToken.class).doOnError(e -> {
+                    throw new RuntimeException(e.getMessage());
+                }).block();
     }
 }
