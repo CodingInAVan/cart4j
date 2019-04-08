@@ -1,10 +1,7 @@
 package com.cart4j.product.entity;
 
 import com.cart4j.model.product.dto.v1.ProductDtoV1;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +11,8 @@ import javax.persistence.*;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Product {
 
     @Id
@@ -31,6 +30,11 @@ public class Product {
     private Long vendorId;
 
     private Long taxClassId;
+
+    public Product (String name) {
+        this.productDescription = new ProductDescription();
+        this.productDescription.setDescription(name);
+    }
 
     @OneToOne
     @JoinColumn(name="product_description_id")

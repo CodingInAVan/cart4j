@@ -2,6 +2,8 @@ package com.cart4j.model.security.dto.v1;
 
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,4 +14,5 @@ public class ClientDto {
     private String clientUniqueId;
     private String clientSecret;
     private String grantTypes;
+    private List<ResourceDto> resources;
 }

@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
-import {LoginRequest, TokenReponse} from "../model";
-import {environment} from "../../environments/environment";
-import {catchError, map} from "rxjs/operators";
-import {Observable, Observer, throwError} from "rxjs";
-import {CookieService} from "ngx-cookie-service";
-import {Token} from "@angular/compiler";
-import {TokenizeResult} from "@angular/compiler/src/ml_parser/lexer";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {LoginRequest, TokenReponse} from '../model';
+import {environment} from '../../environments/environment';
+import {catchError, map} from 'rxjs/operators';
+import {BehaviorSubject, Observable, Observer, throwError} from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
 
 
-const LOGIN_URL = environment.apiEndPoint + "/oauth/token";
+const LOGIN_URL = environment.apiEndPoint + '/oauth/token';
 const CLIENT_ID = environment.clientId;
 const CLIENT_SECRET = environment.clientSecret;
 
@@ -17,15 +15,26 @@ const CLIENT_SECRET = environment.clientSecret;
   providedIn: 'root'
 })
 export class AuthService {
-  isLoggedIn: Observable<boolean>;
-  private observer: Observer<boolean>;
+
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    if (this.getToken()) {
+      this.isLoggedIn = new BehaviorSubject<boolean>(true);
+    } else {
+      this.isLoggedIn = new BehaviorSubject<boolean>(false);
+    }
+  }
+  isLoggedIn: BehaviorSubject<boolean>;
+
   private token: string;
   redirectUrl: string;
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {
-    this.isLoggedIn = new Observable(observer => {
-      this.observer = observer;
-    })
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      return throwError(error);
+    }
+    return throwError('Oops something wrong happen here; please try it again later.');
   }
 
   login(login: LoginRequest) {
@@ -38,7 +47,7 @@ export class AuthService {
         'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
       });
 
-    return this.http.post<TokenReponse>(LOGIN_URL, params.toString(), {headers: headers}).pipe(map(res=> {
+    return this.http.post<TokenReponse>(LOGIN_URL, params.toString(), {headers: headers}).pipe(map(res => {
       this.saveToken(res);
     }),
       catchError(error => this.handleError(error))
@@ -53,7 +62,12 @@ export class AuthService {
     this.changeLoginStatus(true);
   }
 
-
+  public getToken(): string {
+    if (!this.token) {
+      this.token = this.cookieService.get('access_token');
+    }
+    return this.token;
+  }
   logout() {
     this.cookieService.set('access_token', '');
     this.cookieService.set('scope', '');
@@ -63,17 +77,6 @@ export class AuthService {
   }
 
   changeLoginStatus(status: boolean) {
-    if(this.observer !== undefined) {
-      this.observer.next(status);
-    }
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      return throwError(error);
-    }
-    return throwError('Oops something wrong happen here; please try it again later.');
+    this.isLoggedIn.next(status);
   }
 }

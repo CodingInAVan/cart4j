@@ -1,0 +1,13 @@
+<table>
+  <thead>
+    <tr>
+      <td *ngFor="let columnHeader of columnHeaders">{{columnHeader.label}}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <app-table-row [data]="data" [columnHeaders]="columnHeaders"></app-table-row>
+  </tbody>
+  <tbody>
+
+  </tbody>
+</table>

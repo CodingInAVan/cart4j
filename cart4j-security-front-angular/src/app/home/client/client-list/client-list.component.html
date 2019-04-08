@@ -1,0 +1,4 @@
+<div>
+  <app-table [columnHeaders]="columnHeaders" [data]="list"></app-table>
+  <app-paginator [totalRecords]="totalRecords" [page]="page" [pageSize]="pageSize" (pageChange)="changePage($event)" (pageSizeChange)="changePageSize($event)"></app-paginator>
+</div>

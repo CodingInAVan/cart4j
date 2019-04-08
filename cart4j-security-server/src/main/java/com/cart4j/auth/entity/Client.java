@@ -1,11 +1,15 @@
 package com.cart4j.auth.entity;
 
 import com.cart4j.model.security.dto.v1.ClientDto;
+import com.cart4j.model.security.dto.v1.ResourceDto;
 import lombok.*;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Table(name="c4_client")
 @Entity
@@ -48,10 +52,15 @@ public class Client implements Serializable {
     private String grantTypes;
 
     public ClientDto toDto() {
+     List<ResourceDto> resourceDtoList = null;
+     if (!CollectionUtils.isEmpty(resources)) {
+       resourceDtoList = resources.stream().map(Resource::toDto).collect(Collectors.toList());
+     }
+
      return ClientDto.builder()
-               .clientSecret(clientSecret)
                .clientUniqueId(clientUniqueId)
                .grantTypes(grantTypes)
+               .resources(resourceDtoList)
                .id(id)
                .build();
     }

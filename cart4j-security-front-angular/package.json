@@ -17,7 +17,6 @@
     "@angular/compiler": "^7.1.4",
     "@angular/core": "^7.1.4",
     "@angular/forms": "^7.1.4",
-    "@angular/material": "^7.3.4",
     "@angular/platform-browser": "^7.1.4",
     "@angular/platform-browser-dynamic": "^7.1.4",
     "@angular/router": "^7.1.4",

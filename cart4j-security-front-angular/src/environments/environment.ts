@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  clientId: "CLIENT-SECURITY-API",
-  clientSecret: "12345",
-  apiEndPoint: "http://localhost:8082"
+  clientId: 'CLIENT-SECURITY-API',
+  clientSecret: '12345',
+  apiEndPoint: 'http://localhost:8082'
 };
 
 /*

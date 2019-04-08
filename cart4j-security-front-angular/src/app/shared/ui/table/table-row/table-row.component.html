@@ -1,0 +1,10 @@
+<tr *ngFor="let item of data" [ngStyle]="{backgroundColor: hover == true ? 'lightGrey' : 'grey'}">
+  <td *ngFor="let columnHeader of columnHeaders">
+    <div *ngIf="item.hasOwnProperty(columnHeader.column)">
+      {{item[columnHeader.column]}}
+    </div>
+    <div *ngIf="columnHeader.column === '' || !item.hasOwnProperty(columnHeader.column)">
+      None
+    </div>
+  </td>
+</tr>
