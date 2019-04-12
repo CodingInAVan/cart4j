@@ -20,11 +20,11 @@ import {tap} from 'rxjs/internal/operators/tap';
 @Injectable()
 export class AppHttpInterceptorService implements HttpInterceptor {
   constructor(public auth: AuthService, private router: Router) {}
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('interceptor is running');
-
-    if (this.auth.isLoggedIn.getValue()) {
+    if (!environment.production) {
+      console.log('HttpInterceptor is running');
+    }
+    if (this.auth.isLoggedIn.getValue() && req.url.search(/oauth\/token/gi) === -1) {
       const authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${this.auth.getToken()}`)});
       if (!environment.production) {

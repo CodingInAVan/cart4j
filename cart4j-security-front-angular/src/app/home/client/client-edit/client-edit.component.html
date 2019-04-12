@@ -1,3 +1,26 @@
-<p>
-  client-edit works!
-</p>
+<h1>Edit Client</h1>
+<div>
+  <form (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="name">Client Id</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="grantTypes">Grant Type</label>
+          <input type="text" class="form-control" id="grantTypes" name="grantTypes" placeholder="Name">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-dark">Save</button>
+    <button (click)="cancel()">Cancel</button>
+  </form>
+</div>
