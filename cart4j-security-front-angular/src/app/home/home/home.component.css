@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+#sidebarCollapse {
+  display: none;
+}
+@media(max-width: 768px) {
+  #sidebarCollapse {
+    display: block;
+  }
+}
+.content {
+  width: 100%;
+}
+
+.main {
+  padding: 10px;
+}

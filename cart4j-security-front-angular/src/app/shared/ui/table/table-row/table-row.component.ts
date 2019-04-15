@@ -1,5 +1,5 @@
-import {Component, Directive, HostListener, Input, OnInit} from '@angular/core';
-import {TableModel} from '../table-model';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
+import {ColumnModel} from '../../model/ui-model';
 
 @Component({
   selector: '[app-table-row]',
@@ -8,7 +8,7 @@ import {TableModel} from '../table-model';
 })
 export class TableRowComponent implements OnInit {
   @Input() item = [];
-  @Input() columnHeaders: TableModel[];
+  @Input() columnHeaders: ColumnModel[];
   hover = false;
   constructor() { }
 

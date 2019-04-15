@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {TableModel} from './table-model';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ColumnModel} from '../model/ui-model';
 
 @Component({
   selector: 'app-table',
@@ -8,9 +8,14 @@ import {TableModel} from './table-model';
 })
 export class TableComponent implements OnInit {
   @Input() data = [];
-  @Input() columnHeaders: TableModel[];
+  @Input() columnHeaders: ColumnModel[];
+
+  @Output() clickRow: EventEmitter<any> = new EventEmitter();
   constructor() { }
 
+  clickItem(event, item) {
+    this.clickRow.emit(item);
+  }
   ngOnInit() {
   }
 

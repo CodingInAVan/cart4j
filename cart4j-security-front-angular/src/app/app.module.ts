@@ -22,7 +22,7 @@ import {AppHttpInterceptorService} from './shared/services/app-http-interceptor.
     BrowserAnimationsModule,
     AppRoutingModule,
     LoginModule,
-    HomeModule,
+    HomeModule
   ],
   providers: [
     AuthService,

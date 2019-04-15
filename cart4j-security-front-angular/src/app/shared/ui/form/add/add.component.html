@@ -1,0 +1,36 @@
+<form [formGroup]="form" (submit)="submitForm()" class="input-form">
+  <ng-container *ngFor="let field of inputFields">
+    <ng-container [ngSwitch]="field.columnType">
+      <ng-container *ngSwitchCase="'text'">
+        <mat-form-field class="full-width">
+          <input matInput [formControlName]="field.columnName" [type]="field.valueType" [placeholder]="field.label" [(ngModel)]="model[field.columnName]" [name]="field.columnName"
+                 [minLength]="field.minLength != null ? field.minLength : 1" [maxLength]="field.maxLength != null ? field.maxLength : 65535">
+          <mat-error *ngIf="form.get(field.columnName).invalid && (form.get(field.columnName)).dirty || form.get(field.columnName).touched">{{field.label}} is required</mat-error>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngSwitchCase="'chip'">
+        <mat-form-field class="full-width">
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let chip of model[field.columnName]" [selectable]="selectable"
+                      [removable]="removable" (removed)="removeChip(chip, field.columnName)">
+              {{chip}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input [placeholder]="field.label"
+                   [matChipInputFor]="chipList"
+                   [matAutocomplete]="auto"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="addChip($event, field.columnName)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedChip($event, field.columnName)">
+            <mat-option *ngFor="let option of field.autoCompleteOptions" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <button mat-stroked-button>Add</button>
+</form>

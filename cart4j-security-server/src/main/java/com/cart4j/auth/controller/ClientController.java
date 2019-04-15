@@ -41,9 +41,16 @@ public class ClientController {
             .build();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
+    ClientDto getClient(@PathVariable Long id) {
+        return clientService.getClient(id);
+    }
+
     @PostMapping
     @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
     ClientDto addClient(Principal principal, @RequestBody ClientDto client) throws ClientAlreadyExistsException {
+        System.out.println(client);
         ClientDto newClient = clientService.addClient(client);
         LOGGER.info("{} added the client[{}]", principal.getName(), newClient.getId());
         return newClient;

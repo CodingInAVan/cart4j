@@ -6,6 +6,7 @@ import {ClientAddModule} from './client-add/client-add.module';
 import {ClientEditModule} from './client-edit/client-edit.module';
 import {RouterModule} from '@angular/router';
 import {ClientListModule} from './client-list/client-list.module';
+import {ClientViewModule} from './client-view/client-view.module';
 
 @NgModule({
   declarations: [ClientComponent],
@@ -14,6 +15,7 @@ import {ClientListModule} from './client-list/client-list.module';
     ClientAddModule,
     ClientEditModule,
     ClientListModule,
+    ClientViewModule,
     RouterModule
   ],
   providers: [ClientService]

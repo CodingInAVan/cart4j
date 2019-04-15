@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ClientService} from '../../../services/client.service';
 import {Client} from '../../../model';
-import {TableModel} from '../../../shared/ui/table/table-model';
+import {ColumnModel} from '../../../shared/ui/model/ui-model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-client-list',
@@ -15,25 +16,21 @@ export class ClientListComponent implements OnInit {
   pageSize = 5;
   page = 0;
   list: Client[] = [];
-  columnHeaders: TableModel[] = [
+  columnHeaders: ColumnModel[] = [
     {
-      column: 'id',
+      columnName: 'id',
       label: 'ID'
     },
     {
-      column: 'clientUniqueId',
+      columnName: 'clientUniqueId',
       label: 'Client Unique Id'
     },
     {
-      column: 'grantTypes',
+      columnName: 'grantTypes',
       label: 'Grant Types'
-    },
-    {
-      column: 'options',
-      label: ''
     }
   ];
-  constructor(private clientService: ClientService) {
+  constructor(private clientService: ClientService, private router: Router) {
   }
   ngOnInit() {
     this.getList();
@@ -52,5 +49,8 @@ export class ClientListComponent implements OnInit {
       this.totalRecords = res.totalRecords;
       this.page = res.offset;
     });
+  }
+  clickRow(item) {
+    this.router.navigate(['/clients/view/' + item.id]).then();
   }
 }

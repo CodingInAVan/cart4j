@@ -24,7 +24,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
     if (!environment.production) {
       console.log('HttpInterceptor is running');
     }
-    if (this.auth.isLoggedIn.getValue() && req.url.search(/oauth\/token/gi) === -1) {
+    if (this.auth.getToken() && req.url.search(/oauth\/token/gi) === -1) {
       const authReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${this.auth.getToken()}`)});
       if (!environment.production) {

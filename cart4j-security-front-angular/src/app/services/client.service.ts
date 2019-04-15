@@ -7,9 +7,8 @@ import {environment} from '../../environments/environment';
 import {HandleError, HttpErrorHandler} from '../shared/services/http-handle-error.service';
 
 const CLIENT_API_ENDPOINT_LIST = environment.apiEndPoint + '/api/auth/clients';
-const CLIENT_API_ENDPOINT_POST = environment.apiEndPoint + '/api/auth/client';
-const CLIENT_API_ENDPOINT_PUT = environment.apiEndPoint + '/api/auth/client/';
-const CLIENT_API_ENDPOINT_DELETE = environment.apiEndPoint + '/api/auth/client/';
+const CLIENT_API_ENDPOINT_ID = environment.apiEndPoint + '/api/auth/clients/';
+const CLIENT_API_ENDPOINT_POST = environment.apiEndPoint + '/api/auth/clients';
 
 @Injectable()
 export class ClientService {
@@ -34,16 +33,19 @@ export class ClientService {
         .set('searchKey', searchKey)
     }).pipe();
   }
+  get(id: string): Observable<Client> {
+    return this.http.get<Client>(CLIENT_API_ENDPOINT_ID + id, {headers: this.getHeader()}).pipe();
+  }
 
   addClient(client: Client): Observable<Client> {
-    return this.http.post<Client>(CLIENT_API_ENDPOINT_POST, client, {headers: this.getHeader()}).pipe()
+    return this.http.post<Client>(CLIENT_API_ENDPOINT_POST, client, {headers: this.getHeader()}).pipe();
   }
 
   editClient(id: number, client: Client): Observable<Client> {
-    return this.http.put<Client>(CLIENT_API_ENDPOINT_PUT + id, client, {headers: this.getHeader()}).pipe()
+    return this.http.put<Client>(CLIENT_API_ENDPOINT_ID + id, client, {headers: this.getHeader()}).pipe();
   }
 
   deleteClient(id: number): Observable<Client> {
-    return this.http.delete<Client>(CLIENT_API_ENDPOINT_DELETE + id, {headers: this.getHeader()}).pipe();
+    return this.http.delete<Client>(CLIENT_API_ENDPOINT_ID + id, {headers: this.getHeader()}).pipe();
   }
 }

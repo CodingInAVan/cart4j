@@ -1,0 +1,7 @@
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+  background: #d2e7ef;
+  transition: all 0.4s cubic-bezier(0.945, 0.020, 0.270, 0.665);
+}

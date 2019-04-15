@@ -1,5 +1,5 @@
 <div>
-  <app-table [columnHeaders]="columnHeaders" [data]="list"></app-table>
+  <app-table [columnHeaders]="columnHeaders" [data]="list" (clickRow)="clickRow($event)"></app-table>
   <app-paginator [totalRecords]="totalRecords" [page]="page" [pageSize]="pageSize" (pageChange)="changePage($event)" (pageSizeChange)="changePageSize($event)"></app-paginator>
-  <button routerLink="/client/add">add</button>
+  <button routerLink="/clients/add">add</button>
 </div>

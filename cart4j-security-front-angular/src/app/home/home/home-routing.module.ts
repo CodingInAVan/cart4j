@@ -7,6 +7,7 @@ import {ResourceComponent} from '../resource/resource.component';
 import {ClientComponent} from '../client/client.component';
 import {ClientAddComponent} from '../client/client-add/client-add.component';
 import {ClientListComponent} from '../client/client-list/client-list.component';
+import {ClientViewComponent} from '../client/client-view/client-view.component';
 
 const homeRoute: Routes = [{
   path: '',
@@ -19,13 +20,18 @@ const homeRoute: Routes = [{
       canActivate: [AuthGuard]
     },
     {
-      path: 'client',
+      path: 'clients',
       component: ClientComponent,
       canActivate: [AuthGuard],
       children: [
         {
           path: '',
           component: ClientListComponent,
+          canActivate: [AuthGuard]
+        },
+        {
+          path: 'view/:id',
+          component: ClientViewComponent,
           canActivate: [AuthGuard]
         },
         {

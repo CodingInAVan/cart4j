@@ -1,0 +1,10 @@
+.field-value {
+  width: 100%;
+}
+.field {
+  float: left;
+  width: 20%;
+}
+.value {
+  width: 80%;
+}
