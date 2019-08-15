@@ -1,9 +1,9 @@
-<table>
-    <tr>
-      <td *ngFor="let columnHeader of columnHeaders">{{columnHeader.label}}</td>
-    </tr>
-  <tbody>
-    <tr (click)="clickItem($event, item)" *ngFor="let item of data" app-table-row [item]="item" [columnHeaders]="columnHeaders">
-    </tr>
-  </tbody>
+<table mat-table [dataSource]="data" class="mat-elevation-z8">
+  <ng-container matColumnDef="{{column.label}}" *ngFor="let column of columnModels">
+    <th mat-header-cell *matHeaderCellDef> {{column.label}} </th>
+    <td mat-cell *matCellDef="let element"> {{element[column.columnName]}} </td>
+  </ng-container>
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row class="element-row" (click)="clickItem($event, row)" *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>

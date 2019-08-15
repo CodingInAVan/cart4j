@@ -8,7 +8,14 @@ import {ColumnModel} from '../model/ui-model';
 })
 export class TableComponent implements OnInit {
   @Input() data = [];
-  @Input() columnHeaders: ColumnModel[];
+  @Input() set columnHeaders(columnHeaders: ColumnModel[]) {
+    this.columnModels = columnHeaders;
+    for (const columnHeader of this.columnModels) {
+      this.displayedColumns.push(columnHeader.label);
+    }
+  }
+  columnModels: ColumnModel[];
+  displayedColumns = [];
 
   @Output() clickRow: EventEmitter<any> = new EventEmitter();
   constructor() { }

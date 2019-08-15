@@ -25,7 +25,6 @@ export class AuthService {
   }
   isLoggedIn: BehaviorSubject<boolean>;
 
-  private token: string;
   redirectUrl: string;
 
   private handleError(error: HttpErrorResponse) {
@@ -63,10 +62,7 @@ export class AuthService {
   }
 
   public getToken(): string {
-    if (!this.token) {
-      this.token = this.cookieService.get('access_token');
-    }
-    return this.token;
+    return this.cookieService.get('access_token');
   }
   logout() {
     this.cookieService.set('access_token', '');

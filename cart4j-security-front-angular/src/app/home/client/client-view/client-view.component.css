@@ -8,3 +8,13 @@
 .value {
   width: 80%;
 }
+.button-panel {
+  margin-top: 20px;
+  margin-left: 10px;
+  padding-left: 0px;
+  list-style: none;
+}
+.button-panel li {
+  margin-right: 10px;
+  float: left;
+}

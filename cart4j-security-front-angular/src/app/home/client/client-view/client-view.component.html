@@ -1,18 +1,25 @@
-<div>
-  <div class="field-value">
+
+<mat-list *ngIf="client">
+  <mat-list-item>
     <div class="field">Id</div>
-    <div class="value">{{client.id}}</div>
-  </div>
-  <div class="field-value">
+    <div class="field">{{client.id}}</div>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
     <div class="field">Client Unique Id</div>
     <div class="value">{{client.clientUniqueId}}</div>
-  </div>
-  <div class="field-value">
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
     <div class="field">Grant Types</div>
     <div class="value">{{client.grantTypes}}</div>
-  </div>
+  </mat-list-item>
+  <mat-divider></mat-divider>
   <div>
-    <button (click)="goList()">Back</button>
-    <button>Edit</button>
+    <ul class="button-panel">
+      <li><button mat-raised-button (click)="goList()">Back</button></li>
+      <li><button mat-raised-button color="primary">Edit</button></li>
+      <li><button mat-raised-button color="warn">Delete</button></li>
+    </ul>
   </div>
-</div>
+</mat-list>

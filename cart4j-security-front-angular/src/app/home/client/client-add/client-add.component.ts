@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import {Client, ClientInput, GRANT_TYPES} from '../../../model';
 import {ClientService} from '../../../services/client.service';
 import {InputFormSetting} from '../../../shared/ui/model/ui-model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-client-add',
@@ -42,7 +43,7 @@ export class ClientAddComponent implements OnInit {
     clientSecret: '',
     grantTypes: []
   };
-  constructor(private clientService: ClientService, private _location: Location) {
+  constructor(private clientService: ClientService, private _location: Location, private router: Router) {
 
   }
 
@@ -57,8 +58,7 @@ export class ClientAddComponent implements OnInit {
       clientSecret: this.modelInput.clientSecret
     };
     this.clientService.addClient(client).subscribe( data => {
-        // success ...
-        console.log(data);
+        this.router.navigate(['/clients']).then();
       }
       , err => {
         // handling the error

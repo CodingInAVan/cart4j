@@ -23,6 +23,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!environment.production) {
       console.log('HttpInterceptor is running');
+      console.log(this.auth.getToken());
     }
     if (this.auth.getToken() && req.url.search(/oauth\/token/gi) === -1) {
       const authReq = req.clone({
@@ -42,7 +43,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401) {
               localStorage.removeItem('token');
-              this.router.navigate(['/login']).then();
+              this.router.navigate(['/login'], { queryParams: { returnUrl: this.auth.redirectUrl }}).then();
             }
           }
         })

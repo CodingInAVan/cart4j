@@ -24,13 +24,17 @@ export class ClientService {
       'Authorization': 'Bearer ' + this.cookieService.get('access_token')
     });
   }
-  getList(searchKey: string, pageIndex = 0, pageSize = 5): Observable<Page<Client>> {
+  getList(searchKey: string, pageIndex = 0, pageSize = 5, sort = null): Observable<Page<Client>> {
+    if (sort == null) {
+      sort = 'id,desc';
+    }
     return this.http.get<Page<Client>>(CLIENT_API_ENDPOINT_LIST, {
       headers: this.getHeader(),
       params: new HttpParams()
         .set('page', pageIndex.toString())
         .set('size', pageSize.toString())
         .set('searchKey', searchKey)
+        .set('sort', sort)
     }).pipe();
   }
   get(id: string): Observable<Client> {

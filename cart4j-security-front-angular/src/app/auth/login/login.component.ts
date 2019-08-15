@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     message: ''
   };
 
-  constructor(private authService:AuthService, private router:Router,
+  constructor(private authService: AuthService, private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -28,10 +28,11 @@ export class LoginComponent implements OnInit {
   }
 
   login (loginForm) {
-    this.authService.login(this.loginRequest).subscribe(()=>{
+    console.log(this.returnUrl);
+    this.authService.login(this.loginRequest).subscribe(() => {
       this.router.navigate([this.returnUrl]).then();
     }, error => {
-      if (error.status == 401) {
+      if (error.status === 401) {
         this.errorMessage = 'invalid username and password';
       } else {
         this.errorMessage = 'Oops sorry there is an issue to login. Please try it again later'

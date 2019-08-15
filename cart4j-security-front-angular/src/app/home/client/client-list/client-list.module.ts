@@ -4,6 +4,7 @@ import { ClientListComponent } from './client-list.component';
 import {RouterModule} from '@angular/router';
 import {PaginatorModule} from '../../../shared/ui/paginator/paginator.module';
 import {TableModule} from '../../../shared/ui/table/table.module';
+import {MaterialModule} from '../../../shared/ui/material/material.module';
 
 @NgModule({
   declarations: [ClientListComponent],
@@ -11,7 +12,8 @@ import {TableModule} from '../../../shared/ui/table/table.module';
     CommonModule,
     RouterModule,
     PaginatorModule,
-    TableModule
+    TableModule,
+    MaterialModule
   ],
   exports: [
     ClientListComponent
