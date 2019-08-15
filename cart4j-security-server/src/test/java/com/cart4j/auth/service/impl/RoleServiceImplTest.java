@@ -1,10 +1,10 @@
 package com.cart4j.auth.service.impl;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.dto.RoleDto;
 import com.cart4j.auth.exception.RoleAlreadyExistingException;
 import com.cart4j.auth.repository.RoleRepository;
 import com.cart4j.auth.service.RoleService;
+import com.cart4j.model.security.dto.v1.RoleDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

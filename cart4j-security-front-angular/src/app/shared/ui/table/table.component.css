@@ -1,0 +1,10 @@
+table {
+  width: 100%;
+}
+tr.element-row:not(.example-expanded-row):hover {
+  background: #f5f5f5;
+}
+
+tr.element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}

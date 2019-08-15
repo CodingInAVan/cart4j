@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,15 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/auth/clients")
 public class ClientController {
+    @Autowired
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
     @GetMapping
-    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
-    PageDto<ClientDto> getClients(Pageable pageable, String searchKey) {
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
+    PageDto<ClientDto> getClients(Pageable pageable,
+                                  @RequestParam (value = "searchKey", required = false) String searchKey) {
         Page<ClientDto> clientsPage = clientService.getClients(pageable, searchKey);
         return PageDto.<ClientDto>builder().limit(pageable.getPageSize())
             .list(clientsPage.getContent())
@@ -35,16 +42,23 @@ public class ClientController {
             .build();
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
+    ClientDto getClient(@PathVariable Long id) {
+        return clientService.getClient(id);
+    }
+
     @PostMapping
-    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
     ClientDto addClient(Principal principal, @RequestBody ClientDto client) throws ClientAlreadyExistsException {
+        System.out.println(client);
         ClientDto newClient = clientService.addClient(client);
         LOGGER.info("{} added the client[{}]", principal.getName(), newClient.getId());
         return newClient;
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
     ClientDto editClient(Principal principal, @RequestBody ClientDto client, @PathVariable Long id) {
         ClientDto modifiedClient = clientService.editClient(id, client);
         LOGGER.info("{} modified the client[{}]", principal.getName(), modifiedClient.getId());
@@ -52,7 +66,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
     void deleteClient(Principal principal, @PathVariable Long id) {
         clientService.deleteClient(id);
         LOGGER.info("{} modified the client[{}]", principal.getName(), id);
@@ -62,7 +76,7 @@ public class ClientController {
      * Adding a scope to the client.
      */
     @PostMapping("/{id}/scope/{scopeId}")
-    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN') and hasAuthority('USER_AUTH_ADMIN')")
+    @PreAuthorize("#oauth2.hasScope('SECURITY_API_ADMIN')")
     ClientDto addScope(@PathVariable Long id, @PathVariable Long scopeId, Principal principal) throws ClientNotFoundException, ScopeNotFoundException {
         ClientDto client = clientService.addScope(scopeId, id);
         LOGGER.info("{} added a scope[{}] to client[{}]", principal.getName(), scopeId, client.getId());
@@ -75,7 +89,6 @@ public class ClientController {
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
-    @Autowired
-    private ClientService clientService;
+    private final ClientService clientService;
 
 }

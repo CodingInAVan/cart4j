@@ -1,0 +1,24 @@
+<main>
+  <div>
+    <form (ngSubmit)="login(loginForm)" #loginForm="ngForm">
+      <div>
+        <h1 class="h3 mt-3 mb-3 font-weight-normal">Welcome</h1>
+        <p>Cart4J OAuth2 Management App</p>
+        <hr>
+      </div>
+      <div>
+        <label for="username">Username</label>
+        <input class="form-control" id="username" name="username"
+               placeholder="Enter username" [(ngModel)]="loginRequest.username" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" name="password" [(ngModel)]="loginRequest.password" id="password"
+               placeholder="Password" required>
+      </div>
+      <button type="submit" [disabled]="!loginForm.form.valid">Login</button>
+
+      <div #errorAlert class="{{errorMessage != null && errorMessage !== ''? 'show': 'hide'}}">{{errorMessage}}</div>
+    </form>
+  </div>
+</main>

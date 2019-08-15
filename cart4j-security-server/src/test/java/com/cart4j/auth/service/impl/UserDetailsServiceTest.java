@@ -2,15 +2,12 @@ package com.cart4j.auth.service.impl;
 
 import com.cart4j.auth.entity.Role;
 import com.cart4j.auth.entity.User;
-import com.cart4j.auth.provider.AuthTokenStore;
 import com.cart4j.auth.repository.UserRepository;
-import com.cart4j.auth.service.impl.UserDetailsServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,11 +23,17 @@ public class UserDetailsServiceTest {
 
     @org.springframework.boot.test.context.TestConfiguration
     public static class TestConfiguration {
+        private UserRepository userRepository;
+        @Autowired
+        public TestConfiguration(UserRepository userRepository) {
+            this.userRepository = userRepository;
+        }
         @Bean
         public UserDetailsService userDetailsService() {
-            return new UserDetailsServiceImpl();
+            return new UserDetailsServiceImpl(userRepository);
         }
     }
+
     @MockBean
     private UserRepository userRepository;
 

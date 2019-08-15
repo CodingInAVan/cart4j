@@ -8,7 +8,7 @@
     <artifactId>cart4j</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>cart4j-model</module>
+        <module>cart4j-common</module>
         <module>cart4j-product-service</module>
         <module>cart4j-security-server</module>
         <module>cart4j-account-service</module>

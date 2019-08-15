@@ -1,0 +1,8 @@
+<td *ngFor="let columnHeader of columnHeaders" [ngStyle]="{backgroundColor: hover == true ? 'lightGrey' : 'white'}">
+  <div *ngIf="item.hasOwnProperty(columnHeader.columnName)">
+    {{item[columnHeader.columnName]}}
+  </div>
+  <div *ngIf="columnHeader.columnName === '' || !item.hasOwnProperty(columnHeader.columnName)">
+
+  </div>
+</td>

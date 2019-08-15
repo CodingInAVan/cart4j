@@ -11,6 +11,7 @@ import com.cart4j.model.security.dto.v1.ClientDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
@@ -41,6 +42,7 @@ public class ClientServiceImpl implements ClientService {
         if(!StringUtils.isEmpty(searchKey)) {
             spec = ClientSpec.searchKey(searchKey);
         }
+
         return clientRepository.findAll(spec, pageable).map(Client::toDto);
     }
 
@@ -131,7 +133,7 @@ public class ClientServiceImpl implements ClientService {
 
     private static class ClientSpec {
         private static Specification<Client> searchKey(String searchKey) {
-            return (root, query, builder) -> builder.like(root.get("client_unique_id"), "%" + searchKey + "%");
+            return (root, query, builder) -> builder.like(root.get("clientUniqueId"), "%" + searchKey + "%");
         }
     }
 

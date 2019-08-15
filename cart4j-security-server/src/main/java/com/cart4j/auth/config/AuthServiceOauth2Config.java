@@ -1,7 +1,6 @@
 package com.cart4j.auth.config;
 
 import com.cart4j.auth.provider.AuthTokenStore;
-import com.cart4j.auth.service.impl.ClientDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,26 +25,28 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthServiceOauth2Config extends AuthorizationServerConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthServiceOauth2Config.class);
-    @Bean
-    public ClientDetailsService clientDetailsServiceImpl() {
-        return new ClientDetailsServiceImpl();
-    }
 
     @Autowired
-    private AuthenticationManager authenticationManagerBean;
+    public AuthServiceOauth2Config(ClientDetailsService clientDetailsServiceImpl, AuthenticationManager authenticationManagerBean) {
+        this.clientDetailsServiceImpl = clientDetailsServiceImpl;
+        this.authenticationManagerBean = authenticationManagerBean;
+    }
+
+    private ClientDetailsService clientDetailsServiceImpl;
+
+    private final AuthenticationManager authenticationManagerBean;
 
     @Bean
     public TokenStore authTokenStore() {
         return new AuthTokenStore();
     }
 
-
     @Bean
     public UserApprovalHandler userApprovalHandler() {
         TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
         handler.setTokenStore(authTokenStore());
-        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsServiceImpl()));
-        handler.setClientDetailsService(clientDetailsServiceImpl());
+        handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsServiceImpl));
+        handler.setClientDetailsService(clientDetailsServiceImpl);
         return handler;
     }
 
@@ -58,13 +59,13 @@ public class AuthServiceOauth2Config extends AuthorizationServerConfigurerAdapte
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(authTokenStore());
-        defaultTokenServices.setClientDetailsService(clientDetailsServiceImpl());
+        defaultTokenServices.setClientDetailsService(clientDetailsServiceImpl);
         endpoints.tokenServices(defaultTokenServices).authenticationManager(authenticationManagerBean);
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(clientDetailsServiceImpl());
+        clients.withClientDetails(clientDetailsServiceImpl);
     }
 
     @Override

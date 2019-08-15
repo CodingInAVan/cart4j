@@ -1,9 +1,9 @@
 package com.cart4j.auth.service.impl;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.dto.ResourceDto;
 import com.cart4j.auth.exception.ResourceAlreadyExistingException;
 import com.cart4j.auth.service.ResourceService;
+import com.cart4j.model.security.dto.v1.ResourceDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

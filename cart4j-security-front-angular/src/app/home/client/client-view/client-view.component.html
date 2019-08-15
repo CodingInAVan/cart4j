@@ -1,0 +1,25 @@
+
+<mat-list *ngIf="client">
+  <mat-list-item>
+    <div class="field">Id</div>
+    <div class="field">{{client.id}}</div>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <div class="field">Client Unique Id</div>
+    <div class="value">{{client.clientUniqueId}}</div>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item>
+    <div class="field">Grant Types</div>
+    <div class="value">{{client.grantTypes}}</div>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <div>
+    <ul class="button-panel">
+      <li><button mat-raised-button (click)="goList()">Back</button></li>
+      <li><button mat-raised-button color="primary">Edit</button></li>
+      <li><button mat-raised-button color="warn">Delete</button></li>
+    </ul>
+  </div>
+</mat-list>

@@ -1,8 +1,8 @@
 package com.cart4j.auth.service.impl;
 
 import com.cart4j.auth.Cart4jAuthApp;
-import com.cart4j.auth.dto.ClientDto;
 import com.cart4j.auth.service.ClientService;
+import com.cart4j.model.security.dto.v1.ClientDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
